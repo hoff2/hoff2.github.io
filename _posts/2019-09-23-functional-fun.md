@@ -3,17 +3,19 @@ layout: post
 title:  "A fun tidbit of functional programming"
 ---
 
-The scenario: You've got a list of text replacements you'd like to make in
-strings. Practical application: You're generating messages to be read by a
-speech-to-text system and there are certain words or names that come up often
-that it doesn't pronounce very well, so you'd like to replace them with
-alternate "phonetic" spellings.
+The intention: You've got a bunch of text replacements you'd like to make in
+strings. Practical application, if you need one: You're generating messages to
+be read by a speech-to-text system and there are certain words or names that
+come up often that it doesn't pronounce very well, so you'd like to replace them
+with alternate "phonetic" spellings.
 
 This example is in Javascript but the concepts are broadly applicable. The list
-of replacements you want to make is in a Javascript object, or your favorite
-language's equivalent: a `Hash`, a `Dictionary`, a `Map<String, String>`, etc.
+of replacements you want to make is key-value pairs, the key being what to
+replace and the value being what to replace it with. We have them in a
+Javascript object, your favorite language's equivalent might be a `Hash`, a
+`Dictionary`, a `Map<String, String>`, etc.
 
-Here's a pretty reasonable imperative-OO solution one might come up with:[^1]
+Here's a totally reasonable imperative-OO solution one might come up with:[^1]
 
 {% highlight javascript %}
 class MessageTransformer {
@@ -31,6 +33,10 @@ class MessageTransformer {
   }
 }
 {% endhighlight %}
+
+
+[//]: # TODO: reformat footnotes once github pages supports jekyll 4 and kramdown 2.
+[^1]:  The only thing slightly esoteric here is maybe the regular expression stuff. `\b` is just a regex thing that matches a "boundary", that is, a word boundary, since we want to replace whole words; it matches the beginning or end of the string, or of a line, or of a word. The flags `gi` mean "global" (replace all occurrences, not just the first one found) and "insensitive" (to letter case).
 
 To use this you'd create a `MessageTransformer` instance during the
 initialization of your program like `const transformer = new
@@ -102,14 +108,15 @@ a chain of functions that the text gets piped through, but all in one function.
 How does this work?
 
 Any time you have some function that accepts two parameters of some type and
-returns the same type -- its type signature is of the form `(A, A) => A` -- you
-can use that function to combine a whole _list_ of `A`s. This is called reducing
-or folding; it's done by successively applying that function to each item in the
-collection with the "so far" value. That function is the argument you give to
-`reduce`. Returning to the example of summing a list of numbers, if you were
-doing it with a for-loop, each time through the loop you add the next number in
-the list to the sum so far; to do the same thing with `reduce`, you just pass it
-a function that does the same thing, like `(x, y) => x + y`.
+combines them into something of the same type -- its type signature is of the
+form `(A, A) => A` -- you can use that function to combine a whole _list_ of
+`A`s. This is called reducing or folding; it's done by successively applying
+that function to each item in the collection with the "so far" value. That
+function is the argument you give to `reduce`. Returning to the example of
+summing a list of numbers, if you were doing it with a for-loop, each time
+through the loop you add the next number in the list to the sum so far; to do
+the same thing with `reduce`, you just pass it a function that does the same
+thing, like `(x, y) => x + y`.
 
 Now, function composition is what it's called when you make a new function out
 of two functions by passing the result of one to the other. You can do this with
@@ -140,53 +147,27 @@ handy for just this sort of thing, because the identity function is to function
 composition what 0 is to adding numbers. There's a scary FP terminology for this
 that's hopefully about to be a lot less scary if I can explain it well enough.
 
-There's a concept in abstract algebra, and the term is borrowed by computer
-science, for things that you can combine two of together and get the same kind
-of thing: they're called _monoids_. For example, to return yet again to summing
-numbers, one would say in algebra that "the set of real numbers under addition
-forms a monoid." The elements of a monoid are a set, analogous to a type in
-programming; a binary operation ("binary" in the sense that it operates on two
-things), analogous to our `(A, A) => A`; and an _identity element_. The identity
-element is that member of `A` where, when used in the binary operation, the
-result is equal to the other argument -- like how in real numbers, `x + 0 == 0 +
-x == x`. In the same way, functions like `B => B` form a monoid under
-composition having the identity function, often called `i`, as its identity
-element, because composing some `f` with `i` gets you, for all practical
-purposes, the same function: `i(f(x)) == f(i(x)) == f(x)`.[^2][^3]
+There's a concept in abstract algebra, and borrowed by computer science, for
+things that you can combine two of together and get the same kind of thing:
+they're called _monoids_. For example, to return yet again to summing numbers,
+one would say in algebra that "the set of real numbers under addition forms a
+monoid." The elements of a monoid are a set, analogous to a type in programming;
+a binary operation ("binary" in the sense that it operates on two things),
+analogous to our `(A, A) => A`; and an _identity element_. The identity element
+is that member of `A` where, when used in the binary operation, the result is
+equal to the other argument -- like how in real numbers, `x + 0 == 0 + x == x`.
+In the same way, functions like `B => B` form a monoid under composition having
+the identity function, often called `i`, as its identity element, because
+composing some `f` with `i` gets you, for all practical purposes, the same
+function: `i(f(x)) == f(i(x)) == f(x)`.[^2][^3]
+
+[^2]: I'm intentionally using notation here aimed at programmers rather than proper mathematical notation, don't @ me.
+
+[^3]: There's also a whole lot of other nuances I'm glossing over here that you're likely to run into and understand eventually. For instance, there is such a thing as a monoid _without_ an identity, except it's called a _semigroup_. And sometimes the order of arguments to the operation matters; when it doesn't, you have a _commutative_ monoid, like our number-addition and function-composition examples, but sometimes it does, like with strings under concatenation, and when the operation is non-commutative you can have elements that are only a _left identity_ or _right identity_ and then I think maybe that's just called a _group_. It's a whole deep and fascinating branch of mathematics that's totally worth checking out but I'm trying to keep this article from going off the rails, and this footnote is just here for the benefit of the Well-Actually Brigade.
 
 So, I thought this turned out pretty slick, it's a neat way to conceptualize the
-problem, the code is super small and clean, and you lose the mental overhead of thinking about a variable whose
-value keeps changing. But I hear you in the back of the room there
+problem, the code is super small and clean, and you lose the mental overhead of
+thinking about a variable whose value keeps changing. But I hear you in the back
+of the room there
 
 TODO: discuss memory usage, stack, tail-call optimization, etc
-TODO: how do i do long footnotes
-
-
-
-
-
-[^1]:
-  The only thing slightly esoteric here is maybe the regular expression stuff.
-  `\b` is just a regex thing that matches a "boundary", that is, a word
-  boundary, since we want to replace whole words; it matches the beginning or
-  end of the string, or of a line, or of a word. The flags `gi` mean "global"
-  (replace all occurrences, not just the first one found) and "insensitive" (to
-  letter case).
-
-[^2]:
-  I'm intentionally using notation here aimed at programmers rather than
-  mathematicians, don't @ me.
-
-[^3]:
-  There's also a whole lot of other nuances I'm glossing over here that you're
-  likely to run into and understand eventually. For instance, there is such a
-  thing as a monoid _without_ an identity, except it's called a _semigroup_. And
-  sometimes the order of arguments to the operation matters; when it doesn't,
-  you have a _commutative_ monoid, like our number-addition and
-  function-composition examples, but sometimes it does, like with strings under
-  concatenation, and when the operation is non-commutative you can have elements
-  that are only a _left identity_ or _right identity_ and then I think maybe
-  that's just called a _group_. It's a whole deep and fascinating branch of
-  mathematics that's totally worth checking out but I'm trying to keep this
-  article from going off the rails, and this footnote is just here for the
-  benefit of the Well-Actually Brigade.
