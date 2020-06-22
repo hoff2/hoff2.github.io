@@ -22,6 +22,8 @@ url: https://hoff2.dev
 menu:
   - title: 'Home'
     url: '/'
+  - title: 'About'
+    url: '/about'
   - title: 'Tags'
     url: '/tags'
   - title: 'Categories'
