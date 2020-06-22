@@ -1,17 +1,17 @@
 title: Chuck Hoffman
-description: >-
-  I'm from Iowa. I sling code for a living and get pretty into it.
-  I also do some fun things with experimental music and retro-tech.
+description: "Another programmer blog, lucky you."
+disclaimer: "Note: not affiliated with \"hoff2\" on wordpress.com. Gross."
 
 # put your disqus here
-disqus_shortname: hoff2
-reading_time:     false # if true, shows the estimated reading time for a post
+disqus_shortname: centipedefarmer
+reading_time: false # if true, shows the estimated reading time for a post
 #words_per_minute: 200
-logo:             images/logo.png # logo visible in the topbar
-excerpt_separator: <!--more-->
+logo: images/logo.png # logo visible in the topbar
+excerpt_separator: '<!--more-->'
 
-# Your site's domain goes here (eg: //mmistakes.github.io, http://mademistakes.com, etc)
-# When testing locally leave blank or use http://localhost:4000
+# Your site's domain goes here (eg: //mmistakes.github.io,
+# http://mademistakes.com, etc) When testing locally leave blank or use
+# http://localhost:4000
 url: https://hoff2.dev
 
 # draw your top menu here
@@ -22,40 +22,39 @@ url: https://hoff2.dev
 menu:
   - title: 'Home'
     url: '/'
-  - title: 'Fork'
-    url: 'http://github.com/aron-bordin/neo-hpstr-jekyll-theme'
-  - title: 'Install'
-    url: 'http://github.com/aron-bordin/neo-hpstr-jekyll-theme#installation'
   - title: 'Tags'
     url: '/tags'
   - title: 'Categories'
     url: '/categories'
     type: 'categories'
-  - title: 'Favorites'
-    url: '#'
-    submenu:
-      - title: 'Code Highlighter'
-        url: '/intro/code-highlighting-post/'
-      - title: 'Sample Post'
-        url: '/intro/sample-post/'
+  #- title: 'Favorites'
+  #  url: '#'
+  #  submenu:
+  #    - title: 'Code Highlighter'
+  #      url: '/intro/code-highlighting-post/'
+  #    - title: 'Sample Post'
+  #      url: '/intro/sample-post/'
 
 # Owner/author information
 owner:
   name:           Chuck Hoffman
-  site:           https://hoff2.com
+  site:           https://hoff2.dev
   avatar:         images/avatar.jpg
-  bio:            "Your bio goes here. It shouldn't be super long but a good two sentences or two should suffice."
+  bio: >-
+    I'm from Iowa. I sling code for a living and get pretty into it.
+    I also do some fun things with experimental music and retro-tech.
   email:          centipedefarmer@gmail.com
   # Twitter nick for use in Twitter cards and follow button.
   twitter: hoff2dev
   # GitHub nick for use in follow button in author block.
   github: hoff2
 
-# Twitter account associated with the site if different from owner/author twitter account.
-# Used in Twitter cards.
+# Twitter account associated with the site if different from owner/author
+# twitter account. Used in Twitter cards.
 twitter:
 
-# Social networking links used in author block underneath posts. Update and remove as you like.
+# Social networking links used in author block underneath posts. Update and
+# remove as you like.
 social:
   - title: "github"
     url: "https://github.com/hoff2"
@@ -87,13 +86,27 @@ plugins:
   - jekyll-paginate
 
 # https://github.com/mojombo/jekyll/wiki/Permalinks
-permalink:   /:categories/:title/
+permalink:   /:categories/:year-:month-:day-:title/
 
 # Amount of post to show on home page
 paginate: 5
 
 # if true, shows the floatting share buttons
 float_share: true
+
+kramdown:
+  auto_ids: true
+  footnote_nr: 1
+  entity_output: as_char
+  toc_levels: 1..6
+  enable_coderay: false
+
+  syntax_highlighter_opts:
+    line_numbers: false
+    line_numbers_start: 1
+    tab_width: 4
+    bold_every: 10
+    css: class
 
 # Octopress
 # Default extensions
