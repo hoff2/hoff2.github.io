@@ -6,7 +6,7 @@ disclaimer: "Note: not affiliated with \"hoff2\" on wordpress.com. Gross."
 disqus_shortname: centipedefarmer
 reading_time: false # if true, shows the estimated reading time for a post
 #words_per_minute: 200
-logo: images/logo.png # logo visible in the topbar
+#logo: images/logo.png # logo visible in the topbar
 excerpt_separator: '<!--more-->'
 
 # Your site's domain goes here (eg: //mmistakes.github.io,
@@ -26,9 +26,9 @@ menu:
     url: '/about'
   - title: 'Tags'
     url: '/tags'
-  - title: 'Categories'
-    url: '/categories'
-    type: 'categories'
+  #- title: 'Categories'
+  #  url: '/categories'
+  #  type: 'categories'
   #- title: 'Favorites'
   #  url: '#'
   #  submenu:
