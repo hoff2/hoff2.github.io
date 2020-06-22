@@ -1,8 +1,6 @@
 ---
 layout: page
 title: About Chuck Hoffman
-image:
-  feature: nails.jpg
 comments: false
 modified: 2016-02-14
 ---
