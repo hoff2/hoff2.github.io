@@ -17,13 +17,15 @@ menu:
   #- title: 'Categories'
   #  url: '/categories'
   #  type: 'categories'
-  #- title: 'Favorites'
-  #  url: '#'
-  #  submenu:
-  #    - title: 'Code Highlighter'
-  #      url: '/intro/code-highlighting-post/'
-  #    - title: 'Sample Post'
-  #      url: '/intro/sample-post/'
+  - title: 'Social'
+    url: '#'
+    submenu:
+      - title: 'Twitter'
+        url: 'https://twitter.com/hoff2dev'
+      - title: 'GitHub'
+        url: 'https://github.com/hoff2'
+      - title: 'LinkedIn'
+        url: 'https://linkedin.com/in/hoff2'
 
 owner:
   name:           Chuck Hoffman
