@@ -2,23 +2,11 @@ title: Chuck Hoffman
 description: "Another programmer blog, lucky you."
 disclaimer: "Note: not affiliated with \"hoff2\" on wordpress.com. Gross."
 
-# put your disqus here
-disqus_shortname: centipedefarmer
 reading_time: false # if true, shows the estimated reading time for a post
-#words_per_minute: 200
-#logo: images/logo.png # logo visible in the topbar
 excerpt_separator: '<!--more-->'
 
-# Your site's domain goes here (eg: //mmistakes.github.io,
-# http://mademistakes.com, etc) When testing locally leave blank or use
-# http://localhost:4000
 url: https://hoff2.dev
 
-# draw your top menu here
-# each item must have a title and a url.
-#   To list post categories. use type: 'categories'
-#   To create sub categories. add a submenu item
-# See the example
 menu:
   - title: 'Home'
     url: '/'
@@ -37,7 +25,6 @@ menu:
   #    - title: 'Sample Post'
   #      url: '/intro/sample-post/'
 
-# Owner/author information
 owner:
   name:           Chuck Hoffman
   site:           https://hoff2.dev
@@ -46,14 +33,8 @@ owner:
     I'm from Iowa. I sling code for a living and get pretty into it.
     I also do some fun things with experimental music and retro-tech.
   email:          centipedefarmer@gmail.com
-  # Twitter nick for use in Twitter cards and follow button.
   twitter: hoff2dev
-  # GitHub nick for use in follow button in author block.
   github: hoff2
-
-# Twitter account associated with the site if different from owner/author
-# twitter account. Used in Twitter cards.
-twitter:
 
 # Social networking links used in author block underneath posts. Update and
 # remove as you like.
@@ -65,16 +46,6 @@ social:
   - title: "twitter"
     url: "https://twitter.com/hoff2dev"
 
-# Background image to be tiled on all pages
-background:
-
-# Analytics and webmaster tools stuff goes here
-google_analytics:
-google_verify:
-# https://ssl.bing.com/webmaster/configure/verify/ownership Option 2 content= goes here
-bing_verify:
-
-# http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 timezone:    America/Chicago
 locale:      en_US
 future:      true
@@ -87,13 +58,10 @@ plugins:
   - jekyll-feed
   - jekyll-paginate
 
-# https://github.com/mojombo/jekyll/wiki/Permalinks
 permalink:   /:categories/:year-:month-:day-:title/
 
-# Amount of post to show on home page
 paginate: 5
 
-# if true, shows the floatting share buttons
 float_share: false
 
 kramdown:
@@ -110,15 +78,11 @@ kramdown:
     bold_every: 10
     css: class
 
-# Octopress
-# Default extensions
 post_ext: md
 page_ext: md
-# Found in _templates/
 post_layout: post
 page_layout: page
-# Format titles with titlecase?
-titlecase: true
+titlecase: false
 
 include: [".htaccess"]
 exclude: ["demo/*", "lib", "config.rb", "Capfile", "config", "Gemfile", "Gemfile.lock", "README.md", "LICENSE", "log", "Rakefile", "Rakefile.rb", "tmp", "less", "*.sublime-project", "*.sublime-workspace", "test", "spec", "Gruntfile.js", "package.json", "node_modules"]
