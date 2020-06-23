@@ -2,6 +2,7 @@
 layout: post
 title:  "A fun tidbit of functional programming"
 date: 2019-10-06
+tags: [functional, javascript, monoids]
 ---
 
 The problem: You've got a bunch of text replacements you'd like to make in
@@ -35,9 +36,12 @@ class MessageTransformer {
 }
 {% endhighlight %}
 
-
-[//]: # TODO: reformat footnotes once github pages supports jekyll 4 and kramdown 2.
-[^1]:  The only thing slightly esoteric here is maybe the regular expression stuff. `\b` is just a regex thing that matches a "boundary", that is, a word boundary, since we want to replace whole words; it matches the beginning or end of the string, or of a line, or of a word. The flags `gi` stand for "global" (replace all occurrences, not just the first one found) and "insensitive" (to letter case).
+[^1]: The only thing slightly esoteric here is maybe the regular expression
+    stuff. `\b` is just a regex thing that matches a "boundary", that is, a word
+    boundary, since we want to replace whole words; it matches the beginning or
+    end of the string, or of a line, or of a word. The flags `gi` stand for
+    "global" (replace all occurrences, not just the first one found) and
+    "insensitive" (to letter case).
 
 To use this you'd create a `MessageTransformer` instance during the
 initialization of your program like `const transformer = new
@@ -96,7 +100,13 @@ same function to each element[^2]; "reduce" would then mean taking that
 collection and reducing it down to one value, for example summing a list of
 numbers, or even just counting how many things are in the list.
 
-[^2]: Technically the "context" in which a map occurs doesn't have to be that it's a collection, there are lots of other uses; but collections are commonly most people's first introduction to some of these FP concepts. To give you some idea what other things map can operate on, the `then` method of a `Promise` is also basically a map; you give it a function that accepts `A` and returns `B`, and it uses it to turn a `Promise` with `A` in it into a `Promise` with `B` in it.
+[^2]: Technically the "context" in which a map occurs doesn't have to be that
+    it's a collection, there are lots of other uses; but collections are
+    commonly most people's first introduction to some of these FP concepts. To
+    give you some idea what other things map can operate on, the `then` method
+    of a `Promise` is also basically a map; you give it a function that accepts
+    `A` and returns `B`, and it uses it to turn a `Promise` with `A` in it into
+    a `Promise` with `B` in it.
 
 In the map stage, each item in `replacements` (or more precisely, the array if
 `replacements`'s keys) is mapped to a function that performs that replacement.
@@ -171,9 +181,21 @@ function-composition having the identity function, often called `i`, as its
 identity element, because composing some `f` with `i` gets you, for all
 practical purposes, the same function: `i(f(x)) == f(i(x)) == f(x)`.[^4]
 
-[^3]: There's a whole lot of other nuances I'm glossing over that you're likely to run into and understand eventually. For instance, there is such a thing as a monoid _without_ an identity element, except it's called a _semigroup_ (In fact I've made reference to one earlier, I'll leave it as a challenge for the reader to spot it). And sometimes the order of arguments to the operation matters; when it doesn't, you have a _commutative_ monoid, like with numbers under addition, but sometimes it does, like with strings under concatenation, and in some of those type of cases you have elements that are only a _left identity_ or _right identity_... it's a whole deep and fascinating branch of mathematics that's totally worth exploring further but I'm trying to keep this article from going off the rails, and this footnote is mostly here for the benefit of the Well-Actually Brigade.
+[^3]: There's a whole lot of other nuances I'm glossing over that you're likely
+    to run into and understand eventually. For instance, there is such a thing
+    as a monoid _without_ an identity element, except it's called a _semigroup_
+    (In fact I've made reference to one earlier, I'll leave it as a challenge
+    for the reader to spot it). And sometimes the order of arguments to the
+    operation matters; when it doesn't, you have a _commutative_ monoid, like
+    with numbers under addition, but sometimes it does, like with strings under
+    concatenation, and in some of those type of cases you have elements that are
+    only a _left identity_ or _right identity_... it's a whole deep and
+    fascinating branch of mathematics that's totally worth exploring further but
+    I'm trying to keep this article from going off the rails, and this footnote
+    is mostly here for the benefit of the Well-Actually Brigade.
 
-[^4]: I'm intentionally using notation here aimed at programmers rather than proper mathematical notation, don't @ me.
+[^4]: I'm intentionally using notation here aimed at programmers rather than
+    proper mathematical notation, don't @ me.
 
 Anyway, to get back to our little example, I thought this functional version
 turned out pretty slick, it's a neat way to conceptualize the problem, the code
