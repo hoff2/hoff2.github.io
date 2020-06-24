@@ -10,8 +10,8 @@ jobs:
     runs-on: ubuntu-16.04
     steps:
       - uses: actions/checkout@v2
-      - run: mkdir -p build/.well-known
-      - run: echo '${{ secrets.KEYBASE_PROOF }}' > build/.well-known/keybase.txt
+      - run: mkdir .well-known
+      - run: echo '${{ secrets.KEYBASE_PROOF }}' > .well-known/keybase.txt
       - uses: helaili/jekyll-action@2.0.1
         env:
           JEKYLL_PAT: ${{ secrets.JEKYLL_PAT }}

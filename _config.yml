@@ -86,5 +86,5 @@ post_layout: post
 page_layout: page
 titlecase: false
 
-include: [".htaccess"]
+include: [".htaccess", ".well-known"]
 exclude: ["demo/*", "lib", "config.rb", "Capfile", "config", "Gemfile", "Gemfile.lock", "README.md", "LICENSE", "log", "Rakefile", "Rakefile.rb", "tmp", "less", "*.sublime-project", "*.sublime-workspace", "test", "spec", "Gruntfile.js", "package.json", "node_modules"]
