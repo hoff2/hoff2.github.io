@@ -18,4 +18,4 @@ jobs:
     needs: github-pages
     steps:
       - run: mkdir .well-known
-      - run: echo ${{ secrets.KEYBASE_PROOF }} > .well-known/keybase.txt
+      - run: echo '${{ secrets.KEYBASE_PROOF }}' > .well-known/keybase.txt
