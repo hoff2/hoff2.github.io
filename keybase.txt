@@ -1,0 +1,82 @@
+==================================================================
+https://keybase.io/centipedefarmer
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://hoff2.dev
+  * I am centipedefarmer (https://keybase.io/centipedefarmer) on keybase.
+  * I have a public key with fingerprint 65EE EFFD F4FF 4B3B 6F37  82A3 F8E7 1C46 A007 9449
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "01011c032cd23c793c1d2d7c823c708bd3b8c2de837f6ef894fcf5a029009f37277c0a",
+      "fingerprint": "65eeeffdf4ff4b3b6f3782a3f8e71c46a0079449",
+      "host": "keybase.io",
+      "key_id": "f8e71c46a0079449",
+      "kid": "01011c032cd23c793c1d2d7c823c708bd3b8c2de837f6ef894fcf5a029009f37277c0a",
+      "uid": "e84439eee524d861b9309009083fa119",
+      "username": "centipedefarmer"
+    },
+    "merkle_root": {
+      "ctime": 1595954634,
+      "hash_meta": "25a458952cd71435461da58887d1201218cde301a54d4abaf0c1e62fb3c923fa",
+      "seqno": 17114062
+    },
+    "revoke": {
+      "sig_ids": [
+        "634f7af1008143a0e6b736755b68453c3bded248d1dc2526af37b32f950f43990f"
+      ]
+    },
+    "service": {
+      "hostname": "hoff2.dev",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 1
+  },
+  "ctime": 1595954634,
+  "expire_in": 157680000,
+  "prev": "f8cec96b5dbee98c2d2d7bbe77adb76af4bd4efc5f3ea998f9f137129c7669e0",
+  "seqno": 49,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: Keybase OpenPGP v2.1.13
+Comment: https://keybase.io/crypto
+
+yMK1AnicrVNdaB1FGL2JptKLLWltjSCVutBaagnztzs7F3yoD1EiEl+a4M/1Oj/f
+3Gx+7l5396ZNk6Dik3kqxSqCVdEIolUotWgorTUWlabESKxorFTSKKg0VQStpS3O
+hoovfXT3YZjhfOec73wzJ1bdUCg2nSjP1PuehvuapqdGGoXKxh0nRzwVm2GvNOL1
+w/ICAwbSrNIfGa/kIYww1ogSbQjVXFCNDTFch/kOhcpQFWpiIKTcBmBDway2vkRE
+ICQs5YRzjaS3zbNRrQpJPYlqmaMNfACw1lhmLVNUBQ4aEkltCBxrFkiEuGBMuMLe
+OM0rnDklU2iPYnfmNpVle9fB/8++G8t0EDJGhfPsE2bCACtBUY5EIbUS41y3kUJS
+k4Pg0BpqWVQHA1Ymg5B4Y9s8t/QPQCWJ4yzPWGdRjsS+cD8LKHN9yrS3MgiZdATE
+l8wPhe/cc8yoQ2Aj/TAMucEEYYJDbYAiLH1mmFTSIo0hIFZRLYhz5Oyk8GQtdgoc
+Y4YC4iwkMBT3Q66eRlUXX+qVHvWctOXSYoRCJyQRBIrTgPu+CkLmU02VAUNYaLDR
+xCeBdNkoSqzwkXWJCGS98liulgxFepk8n9e1HHpja0m7gSHnp57EWazjgfw4y+pp
+KU8lG67nuJ2gKtcYKiqqGXdVXMUQJGkU11wPDnmdwGBXPUqgEuUInwchcl+u4+Ty
+i6FBi0D5RgGIfNRu+koB59Io7tpgyjCw2rcUpBChFRZTjonQPAgEoP8SZML5lFXH
+6WKryayRgDc2dfyxGwtNxcKKlub8DRWKK1v/fVlLr990tfRD5+KV+ddqu3ddPvz4
+H0feumfycnPP+qZTt785efjrfdViugY/N3Qwfumjme7t725Ze+xQ/7q2DYWf5y6M
+r+5c5OnHpyfuXOr5/IXnf93cg//2hz/5arTl/WTF6GZYzwvv9S1Od7x9vqO5W59p
+PXl1R/HumW+efeWOoy3jL579cr4yMfbtO5cuPVHUg8fKrbc1z+7tmtizv1M9+FnX
+4tK5ttFVe/9avfDBVLB1z8Vfaqhj3Y9s/szczTu7D1Sv3FvqGt/SNri/vXrq7Br+
+xU/l3yYmy68OP/Xp+U23Hnn4uzemj99CFp55aPb+hX0bvp/dftfGc6dnN1145MMD
+Lzdd7OuoNH6f+9PuPnjIHl35wD/8CYei
+=Id8O
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/centipedefarmer
+
+==================================================================
+
