@@ -4,7 +4,7 @@ disclaimer: "Note: not affiliated with \"hoff2\" on wordpress.com. Gross."
 
 reading_time: false # if true, shows the estimated reading time for a post
 excerpt_separator: '<!--more-->'
-
+lang: en-US
 url: https://hoff2.dev
 
 menu:
@@ -34,7 +34,7 @@ owner:
   bio: >-
     I'm from Iowa. I sling code for a living and get pretty into it.
     I also do some fun things with experimental music and retro-tech.
-  email:          centipedefarmer@gmail.com
+  email: hoff2@hey.com
   twitter: hoff2dev
   github: hoff2
 
@@ -60,10 +60,8 @@ plugins:
   - jekyll-feed
   - jekyll-paginate
 
-permalink:   /:categories/:year-:month-:day-:title/
-
+permalink:   /:year-:month-:day-:title/
 paginate: 5
-
 float_share: false
 
 kramdown:
