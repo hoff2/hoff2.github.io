@@ -68,10 +68,10 @@ on, and then someone would tell you that if you were doing that then it wasn't
 true "unit" testing, and you'd throw up your hands and go back to your old ways.
 
 Eventually some genius remembered that we can pass _objects_ along as parameters
-too, so we could just build the dependencies ahead of time and pass them in.
-"Injecting" your dependencies' dependencies into them, instead of just letting
-your dependencies build all their own dependencies, this "inversion" of the
-"control" over dependencies, passed for enough of a mindshift to make it a
+too, so we could just build those downstream dependencies ahead of time and pass
+them in. "Injecting" your dependencies' dependencies into them, instead of just
+letting your dependencies build all their own dependencies, this "inversion" of
+the "control" over dependencies, passed for enough of a mindshift to make it a
 buzzword.
 
 Indeed, it was considered such a mindshift that people decided they couldn't
@@ -111,18 +111,18 @@ your classes lose all cohesion or real meaning beyond being arbitrary bags of
 dependencies. What's a separation of concerns?
 
 In Scala's early days of aiming to be a "better Java", they tried to improve on
-this with a scoping feature called `implicit` that ended up replicating the same
-problem in the form of a certain crime against humanity called the Cake Pattern.
-Implicits came to be widely hated, though maybe not always fairly; they ended up
-being repurposed to build out an FP concept called typeclasses, which sounds
-awesome until you realize they're kind of just interfaces.
+this with a scoping feature called `implicit` that ended up replicating similar
+problems in the form of a certain crime against humanity called the Cake
+Pattern. Implicits came to be widely hated, though maybe not always fairly; they
+ended up being repurposed to build out an FP concept called typeclasses, which
+sound awesome until you realize they're kind of just interfaces.
 
-DI/IoC containers continue to be popular, especially in the concept of
+DI/IoC containers continue to be popular, especially in the context of
 opinionated-architecture application frameworks in popular enterprise
 platforms/languages, and I'm able to work with them. When it's up to me,
 however, I prefer to use basic constructor- or setter-based DI methods in a
 manner influenced by things like hexagonal/ports-and-adapters or DCI
-architectures.
+architectures. Even then, messes get made.
 
  > Got a programming topic you'd like me to rant on? Send it to hoff2 at HEY dot
  > com.
