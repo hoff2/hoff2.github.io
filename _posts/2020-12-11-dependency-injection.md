@@ -55,17 +55,17 @@ However, this started to lead to some nasty smells. One would find oneself
 writing constructors that need a whole lot of parameters, even if it's just so
 it can pass most of those parameters on to other constructors; writing out the
 very long calls to those many-parametered constructors, "threading through"
-parameters frome one class to another to another, and probably getting
-parameters in the wrong order several times and other prosaic human errors that
-happen when you're dealing with complicated code. To make matters worse, you
-ended up with classes and methods that are bound to specific context-dependent
-things in your application and don't easily generalize to other circumstances;
-OO's promise of reusable code fails to come through. This got especially hairy
-with the growing popularity of unit testing and test-driven development -- you
-would try to set up a test suite for some class in your code and find that you
-had to build out a whole hairball of stuff just to set up an instance to test
-on, and then someone would tell you that if you were doing that then it wasn't
-true "unit" testing, and you'd throw up your hands and go back to your old ways.
+parameters from one class to another to another, and probably getting parameters
+in the wrong order several times and other prosaic human errors that happen when
+you're dealing with complicated code. To make matters worse, you ended up with
+classes and methods that are bound to specific context-dependent things in your
+application and don't easily generalize to other circumstances; OO's promise of
+reusable code fails to come through. This got especially hairy with the growing
+popularity of unit testing and test-driven development -- you would try to set
+up a test suite for some class in your code and find that you had to build out a
+whole hairball of stuff just to set up an instance to test on, and then someone
+would tell you that if you were doing that then it wasn't true "unit" testing,
+and you'd throw up your hands and go back to your old ways.
 
 Eventually some genius remembered that we can pass _objects_ along as parameters
 too, so we could just build those downstream dependencies ahead of time and pass
