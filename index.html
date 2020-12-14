@@ -4,6 +4,82 @@ tags: [tech, programming, software, development]
 comments: false
 ---
 
+{% if paginator.page == 1 %}
+  <article class="intro">
+    <header>
+        <h1 class="entry-title">
+          It's Ya Boy
+        </h1>
+      <div class="entry-meta">
+        <span class="entry-date date published updated">
+          <time datetime="{{ post.date | date_to_xmlschema }}">
+            {{ "2020-12-14" | date: "%B %d, %Y" }}
+          </time>
+        </span>
+      </div>
+    </header>
+    <div class="entry-content">
+      <p>
+        My name is Chuck, I live in Des Moines, Iowa, and I am a software
+        developer. You can hire me if you want; I'm pretty good and not exactly
+        picky right now, what with the world cracking apart and all.
+      </p>
+      <p>
+        After playing games like Oregon Trail on the school Apple IIe computers
+        as a kid in the mid 1980s I just had to know how they made this stuff. I
+        started reading about programming. My first programs, in BASIC, were
+        written in pencil in a spiral notebook and later typed in at the public
+        library. Within a few years I had learned Pascal and a little bit of
+        assembly.
+      </p>
+      <p>
+        The Apple II line went extinct and I didn't have the perspective to
+        understand what in my skills was still useful. PCs were advancing too
+        fast to keep up with when my family couldn't afford to be buying another
+        computer every year. So I got out of the code game and threw myself into
+        music. Band was pretty much the only reason I bothered to show up to
+        high school.
+      </p>
+      <p>
+        I tried going to college to be a composer but ended up discovering and
+        being corrupted by the Internet. I dropped out, then made zines and
+        played in a bunch of weird lo-fi/punk/noise bands for a few years and
+        lived that dirtbag life. The only kind of job I could manage to hold
+        down long-term was delivering pizza. After a while I got married and
+        lived in a trailer park.
+      </p>
+      <p>
+        A high-school friend who had found his way into IT encouraged me to get
+        back into computers. I enrolled in one of those 2-year colleges that
+        advertised on the Maury show. By graduation I realized that software
+        development was my calling but I was going to need a Bachelors degree to
+        be taken seriously as a job candidate. Eventually, at the age of 30, I
+        got one. I'd made a point to study Computer Science foundations and
+        theory over specific technologies, so that I'd have an underlying basis
+        to learn and move with changing technology. That adaptability has been
+        my credo ever since but it can be challenging to convince an employer
+        that my 5 years each in Scala and full-stack Rails make my .NET Core
+        experience equivalent to more than the 6 months or so it counts for on
+        paper. 
+      </p>
+      <p>
+        After getting laid off from the only cool tech startup in Black Hawk
+        County, I moved to Des Moines and I been out here grindin ever since.
+        I've been called a unicorn and a Swiss army knife and a whole lot of
+        other complimentary things I'm weirdly uncomfortable with. Accepting
+        compliments has never been my strong suit.
+      </p>
+      <p>
+        I've got struggles and opinions and eccentricities and I find it
+        soul-crushing to pretend otherwise. If you can't handle that, we might
+        not get along, but don't let that dissuade you from giving us a chance
+        -- I'm generally accommodating to a fault, at least at first. This world
+        is not my home, I'm just hear to learn and maybe teach a little.
+      </p>
+    </div>
+  </article>
+{% endif %}
+
 {% for post in paginator.posts %}
 <article class="hentry">
   <header>
