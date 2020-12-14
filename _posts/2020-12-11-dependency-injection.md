@@ -40,7 +40,7 @@ In the early days of object orientation, as its dominance in industry was new,
 many design principles, patterns, and practices we've since come to take for
 granted were yet to grow. Much of the field was still thinking in Procedural or
 Structured Programming terms and was still figuring out how to use the tool of
-OO _well_. This is normal. I've seen it happen with Actors and now with
+OO _well_. This is normal. I've since seen it happen with Actors and
 Microservices and arguably even Functional Programming, with three-quarters of a
 century of history behind it, is still lacking in some of this area.
 
