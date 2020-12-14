@@ -99,8 +99,8 @@ database versus a NoSQL one comes down to the old "consultants' answer" of "it
 depends." But what I hope I have been able to get across is a good sense of what
 kinds of things it might depend _on_. There exist now a variety of database
 solutions besides SQL/relational, all focused on being good at different things.
-The question isn't so much SQL versus NoSQL as a choice among a variety of
-databases of which SQL is but one subcategory.
+The question isn't so much SQL versus NoSQL, as it is a choice among a variety
+of databases of which SQL is but one subcategory.
 
  > Got a tech question you'd like me to write on? Send it to hoff2 at HEY dot
  > com.
