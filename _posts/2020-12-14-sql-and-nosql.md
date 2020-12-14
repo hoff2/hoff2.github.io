@@ -91,7 +91,8 @@ pulling a lot of data at once and flexibility in structuring it, but place less
 importance on the data being up-to-the-millisecond consistent across your
 enterprise. Through message- and event-driven system design techniques, one can
 even represent the same information in multiple different databases to support
-different applications.
+different applications. NoSQL was mostly about recognizing that we had more
+choices than we might have realized.
 
 So ultimately, the answer to the question of when you might want to use a SQL
 database versus a NoSQL one comes down to the old "consultants' answer" of "it
