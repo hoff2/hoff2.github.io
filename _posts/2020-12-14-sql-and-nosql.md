@@ -75,8 +75,8 @@ product.
 But yeah, this is the hegemony that birthed the NoSQL meme. Some tech companies
 were getting big doing some innovative stuff and found themselves reaching
 performance and scale needs that relational databases weren't up for. Being
-pretty good at a lot of things sometimes leaves you coming up short where high
-performance is needed for use cases that were rarer when something was initially
+pretty good at a lot of things sometimes leaves you coming up short on very
+specific things, especially things that were rarer when the system was initially
 designed. Everything's a trade-off. Demand increased for distributed and
 parallel computing to handle high load, and relational databases often weren't
 the best at scaling out. Replication exists but it's pretty meh, and sharding is
