@@ -14,9 +14,6 @@ menu:
     url: '/about'
   - title: 'Tags'
     url: '/tags'
-  #- title: 'Categories'
-  #  url: '/categories'
-  #  type: 'categories'
   - title: 'Social'
     url: '#'
     submenu:
