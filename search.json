@@ -1,0 +1,91 @@
+[
+  
+    {
+      "title"    : "SQL and NoSQL",
+      "category" : "",
+      "tags"     : "databases, SQL, NoSQL",
+      "url"      : "https://hoff2.dev/2020-12-14-sql-and-nosql/",
+      "date"     : "2020-12-14 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Notes on Dependency Injection",
+      "category" : "",
+      "tags"     : "Dependency Injection",
+      "url"      : "https://hoff2.dev/2020-12-11-dependency-injection/",
+      "date"     : "2020-12-11 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Hello again",
+      "category" : "",
+      "tags"     : "",
+      "url"      : "https://hoff2.dev/2020-12-05-hello-again/",
+      "date"     : "2020-12-05 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Wesley Willis, a tribute",
+      "category" : "",
+      "tags"     : "Wesley Willis, mental health",
+      "url"      : "https://hoff2.dev/2020-08-04-wesley-willis-a-tribute/",
+      "date"     : "2020-08-04 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Strange Times Are Here",
+      "category" : "",
+      "tags"     : "career, tech",
+      "url"      : "https://hoff2.dev/2020-06-28-strange-times/",
+      "date"     : "2020-06-28 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "A fun tidbit of functional programming",
+      "category" : "",
+      "tags"     : "functional, javascript, monoids",
+      "url"      : "https://hoff2.dev/2019-10-06-functional-fun/",
+      "date"     : "2019-10-06 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Ending the indentation argument",
+      "category" : "",
+      "tags"     : "code, style",
+      "url"      : "https://hoff2.dev/2017-11-02-ending-the-indentation-argument/",
+      "date"     : "2017-11-02 02:25:02 +0000"
+    } ,
+  
+    {
+      "title"    : "self =&gt; abuse, or, the baclava antipattern",
+      "category" : "",
+      "tags"     : "scala, cake, OO, design, dependency-injection",
+      "url"      : "https://hoff2.dev/2015-07-14-self-abuse/",
+      "date"     : "2015-07-14 17:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "The TDD That Can be Spoken Is Not the Eternal TDD",
+      "category" : "",
+      "tags"     : "rails, tdd",
+      "url"      : "https://hoff2.dev/2014-01-24-tdd_is_a_path/",
+      "date"     : "2014-01-24 12:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Counting shared tags (or other commonalities) with a SQL view",
+      "category" : "",
+      "tags"     : "rails, ruby, sql",
+      "url"      : "https://hoff2.dev/2013-12-04-counting-shared-tags-with-a-sql-view/",
+      "date"     : "2013-12-04 12:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "acts_as_taggable_on tagging in Active Admin with Select2 and remote data",
+      "category" : "",
+      "tags"     : "rails, ruby, acts-as-taggable, active-admin, select2",
+      "url"      : "https://hoff2.dev/2013-11-09-acts_as_taggable_on_active_admin_select2/",
+      "date"     : "2013-11-09 15:20:00 +0000"
+    } 
+  
+]

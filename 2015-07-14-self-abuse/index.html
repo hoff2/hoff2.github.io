@@ -1,0 +1,482 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>self => abuse, or, the baclava antipattern &#8211; Chuck Hoffman</title>
+<meta name="description" content="A rant about dependency injection and software design principles">
+<meta name="keywords" content="scala, cake, OO, design, dependency-injection">
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@hoff2dev">
+<meta name="twitter:creator" content="@hoff2dev">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="self => abuse, or, the baclava antipattern">
+<meta property="og:description" content="A rant about dependency injection and software design principles">
+<meta property="og:url" content="https://hoff2.dev/2015-07-14-self-abuse/">
+<meta property="og:site_name" content="Chuck Hoffman">
+<meta property="og:image" content="https://hoff2.dev/images/">
+
+
+
+
+
+<link rel="canonical" href="https://hoff2.dev/2015-07-14-self-abuse/">
+<link href="https://hoff2.dev/feed.xml" type="application/atom+xml" rel="alternate" title="Chuck Hoffman Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="https://hoff2.dev/assets/css/main.css">
+<link rel="stylesheet" href="https://hoff2.dev/assets/css/jquery.mmenu.all.css">
+<link rel="stylesheet" href="https://hoff2.dev/assets/css/jquery.floating-social-share.min.css">
+<!-- Webfonts -->
+<link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel="stylesheet" type="text/css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script type="text/javascript" src="https://hoff2.dev/assets/js/vendor/modernizr-2.6.2.custom.min.js"></script>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="https://hoff2.dev/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="https://hoff2.dev/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="https://hoff2.dev/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://hoff2.dev/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://hoff2.dev/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://hoff2.dev/images/apple-touch-icon-144x144-precomposed.png">
+
+
+
+
+</head>
+
+<body id="post" >
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+
+
+<div class="header-menu header-menu-top">
+    <ul class="header-item-container">
+      <li class="header-item-title header-toggle "><a href="#menu"><h2><i class="fa fa-bars"></i></h2></a></li>
+      <li class="header-item-title">
+        <a href="https://hoff2.dev/">
+          
+          <a href="https://hoff2.dev/" class="title"> Chuck Hoffman</a>
+        </a>
+      </li>
+      
+        
+        
+
+        
+          <li class="header-item "><a href="https://hoff2.dev#"><h3>Social</h3></a>
+            <ul class="header-submenu">
+              
+                
+                  <li class="sub-item"><a href="https://twitter.com/hoff2dev" target="_blank">Twitter</a></li>
+                
+              
+                
+                  <li class="sub-item"><a href="https://github.com/hoff2" target="_blank">GitHub</a></li>
+                
+              
+                
+                  <li class="sub-item"><a href="https://linkedin.com/in/hoff2" target="_blank">LinkedIn</a></li>
+                
+              
+            </ul>
+          </li>
+        
+      
+        
+        
+
+        
+            
+                <li class="header-item "><a href="https://hoff2.dev/tags"><h3>Tags</h3></a></li>
+            
+        
+      
+        
+        
+
+        
+            
+                <li class="header-item "><a href="https://hoff2.dev/about"><h3>About</h3></a></li>
+            
+        
+      
+        
+        
+
+        
+            
+                <li class="header-item "><a href="https://hoff2.dev/"><h3>Home</h3></a></li>
+            
+        
+      
+      <li class="header-item"><a href="https://hoff2.dev/search"><h3><i class="fa fa-search"></i></h3></a></li>
+    </ul>
+  </div>
+
+  <div class="entry-header">
+    <div class="header-title">
+      <div class="header-title-wrap">
+        <h1>self => abuse, or, the baclava antipattern</h1>
+        
+          <h2><span class="entry-date date published updated"><time datetime="2015-07-14T17:00:00+00:00">July 14, 2015</time></span></h2>
+        
+
+        
+            <p class="entry-reading-time">
+              &nbsp;
+            </p><!-- /.entry-reading-time -->
+        
+      </div><!-- /.header-title-wrap -->
+    </div><!-- /.header-title -->
+  </div><!-- /.entry-header -->
+
+
+
+<nav id="menu" style="display: none">
+  <ul>
+    
+      
+        <li><a href="https://hoff2.dev/"><h3>Home</h3></a></li>
+      
+    
+      
+        <li><a href="https://hoff2.dev/about"><h3>About</h3></a></li>
+      
+    
+      
+        <li><a href="https://hoff2.dev/tags"><h3>Tags</h3></a></li>
+      
+    
+      
+        <li><a href="https://hoff2.dev#"><h3>Social</h3></a>
+          <ul>
+            
+              
+                <li><a href="https://twitter.com/hoff2dev" target="_blank">Twitter</a></li>
+              
+            
+              
+                <li><a href="https://github.com/hoff2" target="_blank">GitHub</a></li>
+              
+            
+              
+                <li><a href="https://linkedin.com/in/hoff2" target="_blank">LinkedIn</a></li>
+              
+            
+          </ul>
+        </li>
+      
+    
+  </ul>
+</nav>
+
+
+  <a href="https://twitter.com/hoff2dev" class="btn btn-info button-twitter" data-show-count="false" data-size="large"><i class="fa fa-twitter"></i> <span> | Follow @hoff2dev</span></a>
+
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    <div class="entry-content">
+        
+      <p>Like many beginning Scala programmers, I was exposed to the
+<a href="http://jonasboner.com/2008/10/06/real-world-scala-dependency-injection-di/">Cake</a> <a href="http://www.cakesolutions.net/teamblogs/2011/12/19/cake-pattern-in-depth">Pattern</a> early on and told
+that this is how you do dependency injection in Scala. Coming from the
+Ruby world I thought it looked like an awfully heavy-weight method,
+but of course I didn’t know any other way yet. Right away I was placed
+on a project in which the Cake pattern was apparently very much in
+use, a CMS built on <a href="https://www.playframework.com/">Play</a>.</p>
+
+<p>I was tasked with adding a sitemap feature, such that when the path
+/sitemap.xml was requested, a sitemap of the site would be rendered.
+This seemed straightforward enough. I would just need to pull some
+data about the site’s currently published pages from the database and
+massage it into some <a href="http://www.sitemaps.org/protocol.html">pretty straightforward
+XML</a>. This being Play, I
+started with a controller, and right away knew I’d need to pull in
+whatever code pulls pages from the database, which was pretty easy to
+find. I soon found I would also want to pull in a trait for looking at
+the contents of the HTTP request. Again, no big deal.</p>
+
+<figure class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">trait</span> <span class="nc">SitemapController</span> <span class="k">extends</span> <span class="nc">Controller</span>
+    <span class="k">with</span> <span class="nc">SiteRequestExtractorComponent</span>
+    <span class="k">with</span> <span class="nc">PageRepositoryComponent</span> <span class="o">{</span>
+
+  <span class="k">def</span> <span class="nf">sitemap</span> <span class="k">=</span> <span class="o">{</span>
+    <span class="c1">// the magic happens...</span>
+    <span class="nc">Ok</span><span class="o">(</span><span class="n">sitemapXML</span><span class="o">)</span>
+  <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>Simple enough, until I tried to compile:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[error] /Users/chuckhoffman/dev/cms/app/controllers/SitemapController.scala:48: illegal inheritance;
+[error]  self-type controllers.SitemapController.type does not conform to models.page.CmsPageModule's selftype models.page.CmsPageModule with models.auth.UserRepositoryComponent with models.auth.GroupRepositoryComponent with models.approval.VersionApprovalComponent with models.email.EmailServiceComponent
+[error]   with CmsPageModule
+</code></pre></div></div>
+
+<p>Hm. Looks like somebody used that Cake pattern thingy to inject
+dependencies into <code class="language-plaintext highlighter-rouge">CmsPageModule</code> having to do with users, user
+“groups,” and approval of new content. That probably has to do with
+who can do what kind of updating of pages, so even though that isn’t
+relevant to what I’m after since I only want to <em>read</em> page data, not
+update it, it still seems reasonable. I’ll just find the right traits
+that satisfy those three things – even though I’m not really <em>using</em>
+them here – and add <code class="language-plaintext highlighter-rouge">with</code>s for them and all should be good.</p>
+
+<p>One little snag, I guess… it turns out that those traits were
+“abstract”, which meant <code class="language-plaintext highlighter-rouge">grep</code>ing through the code to find the correct
+“implementations,” which turned out to be
+<code class="language-plaintext highlighter-rouge">UserRepositoryComponentPostgres</code>, <code class="language-plaintext highlighter-rouge">GroupRepositoryComponentPostgres</code>,
+and <code class="language-plaintext highlighter-rouge">MongoVersionApprovalComponent</code>. (This is a common sort of thing
+to do, since one often wants to mock out the database for tests.) Took
+a while to track them down, but eventually I did. So surely I should
+be able to just add those three <code class="language-plaintext highlighter-rouge">with</code>s to the <code class="language-plaintext highlighter-rouge">SitemapController</code>, add
+the <code class="language-plaintext highlighter-rouge">import</code>s of them to the top of the file, and <em>now</em> we’re off and
+running, yeah?</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[error] /Users/chuckhoffman/dev/cms/app/controllers/SitemapController.scala:48: illegal inheritance;
+[error]  self-type controllers.SitemapController.type does not conform to models.page.CmsPageModule's selftype models.page.CmsPageModule with models.auth.UserRepositoryComponent with models.auth.GroupRepositoryComponent with models.approval.VersionApprovalComponent with models.email.EmailServiceComponent
+[error]   with CmsPageModule
+[error]        ^
+[error] /Users/chuckhoffman/dev/cms/app/controllers/SitemapController.scala:51: illegal inheritance;
+[error]  self-type controllers.SitemapController.type does not conform to models.approval.MongoVersionApprovalComponent's selftype models.approval.MongoVersionApprovalComponent with models.page.PageModule with models.treasury.TreasuryModule with models.auth.UserRepositoryComponent with models.auth.GroupRepositoryComponent with models.email.EmailServiceComponent with com.banno.utils.TimeProviderComponent
+[error]   with MongoVersionApprovalComponent
+[error]        ^
+</code></pre></div></div>
+
+<p>Oh. Looks like there’s now some kind of dependency here being enforced
+between pages and something having to do with email; also, versions,
+in addition to depending on pages, users, groups, and that same email
+thing again, also depend on… treasuries? Huh?</p>
+
+<p>Plainly there’s a design problem here because I’m now being forced to
+mixin traits having to do with treasuries (these are bank websites)
+into a controller that makes a sitemap. At this point, however, I
+don’t know Scala well enough to pull off the refactoring this needs
+with all these self-types in the way. So off I go to find more traits
+to mixin to satisfy those self-types. Then those traits turn out to
+have self-types forcing mixin of even more traits, and so on.</p>
+
+<p>After a day and a half of work, I finally had a working
+<code class="language-plaintext highlighter-rouge">SitemapController.scala</code> file containing about ten lines of actual
+“pulling web pages data from the database” and “building some XML,”
+and a couple dozen lines of mostly irrelevant <code class="language-plaintext highlighter-rouge">with</code>s and <code class="language-plaintext highlighter-rouge">import</code>s
+just so the bastard would compile.</p>
+
+<h2 id="its-time-we-had-a-talk-about-what-a-dependency-is">It’s Time We Had A Talk About What A “Dependency” is</h2>
+
+<p>Consider this: given two modules (in the general sense of “bunch of
+code that travels together”, so Scala <code class="language-plaintext highlighter-rouge">trait</code>s and <code class="language-plaintext highlighter-rouge">object</code>s, class
+instances, Ruby <code class="language-plaintext highlighter-rouge">module</code>s, and so forth, all apply) A and B, having,
+let’s say, a dozen functions each, if <em>one</em> of the functions in A
+calls <em>one</em> of the functions in B, does that make B a dependency of A?</p>
+
+<p>I’ll save you the suspense. No, it does not. Or at least, not that
+fact alone. In fact, laying aside the concern that a dozen functions
+might be too many for one module anyway, it’s clear that the
+dependency is between those two <em>functions</em>, not the whole modules
+they happen to be in. Which suggests that that one function in that
+module is responsible for some functionality that may not be all that
+relevant to what the other eleven are for. In other words, you have a
+case of poor <a href="http://c2.com/cgi/wiki?CouplingAndCohesion">cohesion</a>.</p>
+
+<p>To the extent that we promote the Cake pattern to new Scala
+programmers before they have a handle on what good design in Scala
+looks like, I believe we’re putting the cart before the horse. The
+cake pattern, or more generally, cake pattern-inspired self-typing,
+takes your bad design and enlists the compiler to help cram it down
+others’ throats. Couple this with the fact that a lot of new Scala
+programmers think that: (1) because I’m writing Scala, I’m doing
+functional programming; (2) functional programming is the wave of the
+future and OO is on its way out, therefore (3) The past couple decades
+of software design thinking, coming as it does from the old OO world,
+has no relevance to me; and we get situations like my humble little
+sitemap feature.</p>
+
+<p>Cake-patterned code, especially <em>badly</em> cake-patterned code (which has
+been the majority of cake-patterned code I’ve seen, which isn’t
+surprising given the pattern’s complexity – literally nobody I’ve
+talked to seems to quite completely “get” it, myself included), is
+needlessly difficult to refactor, not just because of the high number
+of different modules and “components” involved and/or because you have
+to very carefully pick apart all the self-types (especially when those
+have even more <code class="language-plaintext highlighter-rouge">with</code>s in them), but also because you frequently find
+yourself wanting to move some function A, but need to make sure it can
+still call some function B, but B turns out to be very difficult to
+<em>find</em>, let alone move – it might be in some trait extended by the
+module A is in, or it might be in some trait extended by one of those,
+or some trait extended by one of <em>those</em>, and so on, to the point
+where B could literally be almost anywhere in your project or any
+library it uses, and likewise anywhere in there could easily be
+completely different functions with the same name. All this just so
+that you can get the compiler to beat the next developer that has to
+maintain this code over the head with errors if he doesn’t extend
+certain traits in certain places, despite the fact that the compiler
+is already perfectly good at knowing if you’re trying to call a
+function that isn’t in scope.</p>
+
+<p>To make matters worse, most folks’ introduction to functional
+programming these days still consists of pretty basic Lisp or Haskell
+use throwing all your program’s functions in one global namespace with
+no real modularization. It’s no surprise then if they see either the
+cake pattern or trait inheritance in general as simply a way of
+cramming more stuff into one namespace. Old Rails hands will hear
+echoes of <a href="http://blog.coreyhaines.com/2012/12/why-i-dont-use-activesupportconcern.html">concerns</a> or more generally, the
+Ruby antipattern of “refactoring” by shoving a bunch of
+seemingly-sorta-related stuff out of the way into a module (it makes
+your files shorter on average, but doesn’t necessarily improve your
+design any).</p>
+
+<p>Cohesion and coupling,
+<a href="https://en.wikipedia.org/wiki/Separation_of_concerns">separation of concerns</a>,
+<a href="https://en.wikipedia.org/wiki/Connascence_(computer_programming)">connascence</a>, even things like
+<a href="http://www.artima.com/articles/dci_vision.html">DCI</a>, these things still matter in Scala and in any of
+today’s rising functional or <a href="https://queue.acm.org/detail.cfm?id=2611829">mostly-functional</a>
+programming languages – or for that matter, any programming language
+that gives you the ability to stick related things together, which is
+pretty much all the useful ones. (I posit that DCI may be especially
+relevant to the Scala world as it seems like it would play nicely with
+<a href="http://debasishg.blogspot.com/2014/05/functional-patterns-in-domain-modeling.html">anemic models</a> based on case classes.)</p>
+
+<p>I hate to keep harping on my Ruby past, but I heartily recommend
+<a href="http://www.poodr.com/">Sandi Metz’s book</a> <em>Practical Object-Oriented Design in Ruby</em>.
+Scala is really just kind of like a verbose, statically-typed Ruby
+plus pattern matching, when you think about it. Both combine OO and
+functional concepts, both have “single-inheritance plus mixins”
+multiple-inheritance; heck, even implicit conversions are just a way
+better way of doing what <a href="http://devblog.avdi.org/2015/05/20/so-whats-the-deal-with-ruby-refinements-anyway/">refinements</a> are trying
+to do.</p>
+
+<p>Ultimately though, the cake pattern has the same problem as used to be
+pointed to about <a href="http://c2.com/cgi/wiki?DesignPatternsBook">those other “patterns”</a> when
+they were all the rage: people learned the patterns early on, and
+started using them everywhere because they thought that was how you’re
+supposed to program now. They ended up with overly convoluted designs
+because they were wedging patterns in where they weren’t necessary or
+didn’t make sense, rather than first understanding the <em>reasons</em> the
+patterns existed, reaching for the patterns only when they found
+themselves facing the design puzzles the patterns are intended for.</p>
+
+
+      <footer class="entry-meta">
+        <span class="entry-tags"><a href="https://hoff2.dev/tags#scala" title="Pages tagged scala" class="tag"><span class="term">scala</span></a><a href="https://hoff2.dev/tags#cake" title="Pages tagged cake" class="tag"><span class="term">cake</span></a><a href="https://hoff2.dev/tags#OO" title="Pages tagged OO" class="tag"><span class="term">OO</span></a><a href="https://hoff2.dev/tags#design" title="Pages tagged design" class="tag"><span class="term">design</span></a><a href="https://hoff2.dev/tags#dependency-injection" title="Pages tagged dependency-injection" class="tag"><span class="term">dependency-injection</span></a></span>
+        <span>Updated on <span class="entry-date date updated"><time datetime="2015-07-14">July 14, 2015</time></span></span>
+        
+        <span class="author vcard"><span class="fn">Chuck Hoffman</span></span>
+        <div class="social-share">
+  <ul class="socialcount socialcount-small inline-list">
+    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=https://hoff2.dev/2015-07-14-self-abuse/" title="Share on Facebook"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
+    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=https://hoff2.dev/2015-07-14-self-abuse/" title="Share on Twitter"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
+    <li class="googleplus"><a href="https://plus.google.com/share?url=https://hoff2.dev/2015-07-14-self-abuse/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li>
+  </ul>
+</div><!-- /.social-share -->
+
+      </footer>
+    </div><!-- /.entry-content -->
+    <div class="read-more">
+  <div class="read-more-header">
+    <a href="https://hoff2.dev" class="read-more-btn">About the Author</a>
+  </div><!-- /.read-more-header -->
+  <div class="read-more-content author-info">
+    <h3>Chuck Hoffman</h3>
+    <div class="author-container">
+      <img class="author-img" src="https://hoff2.dev/images/avatar.jpg" alt="Chuck Hoffman" />
+      <div class="author-bio">I'm from Iowa. I sling code for a living and get pretty into it. I also do some fun things with experimental music and retro-tech.</div>
+    </div>
+    <div class="author-share">
+      <ul class="list-inline social-buttons">
+        
+          <li><a href="https://github.com/hoff2" target="_blank"><i class="fa fa-github fa-fw"></i></a></li>
+        
+          <li><a href="https://linkedin.com/in/hoff2" target="_blank"><i class="fa fa-linkedin fa-fw"></i></a></li>
+        
+          <li><a href="https://twitter.com/hoff2dev" target="_blank"><i class="fa fa-twitter fa-fw"></i></a></li>
+        
+      </ul>
+      
+        <a aria-label="Follow @hoff2 on GitHub" data-style="mega" href="https://github.com/hoff2" class="github-button">Follow @hoff2</a>
+      
+      <br>
+      
+        <a href="https://twitter.com/hoff2dev" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @hoff2dev</a>
+      
+    </div>
+  </div>
+</div>
+
+    
+    <div class="read-more">
+  
+    <div class="read-more-header">
+      <a href="https://hoff2.dev/2014-01-24-tdd_is_a_path/" class="read-more-btn">Read More</a>
+    </div><!-- /.read-more-header -->
+    <div class="read-more-content">
+      <h3><a href="https://hoff2.dev/2020-12-14-sql-and-nosql/" title="SQL and NoSQL">SQL and NoSQL</a></h3>
+      <p> > Recently I was given some job interview questions to prepare for. I decided > to try writing my thoughts on the subjects. I had fun wi...&hellip; <a href="https://hoff2.dev/2020-12-14-sql-and-nosql/">Continue reading</a></p>
+    </div><!-- /.read-more-content -->
+  
+  <div class="read-more-list">
+    
+      <div class="list-item">
+        <h4><a href="https://hoff2.dev/2020-12-11-dependency-injection/" title="Notes on Dependency Injection">Notes on Dependency Injection</a></h4>
+        <span>Published on December 11, 2020</span>
+      </div><!-- /.list-item -->
+    
+      <div class="list-item">
+        <h4><a href="https://hoff2.dev/2020-12-05-hello-again/" title="Hello again">Hello again</a></h4>
+        <span>Published on December 05, 2020</span>
+      </div><!-- /.list-item -->
+    
+  </div><!-- /.read-more-list -->
+</div><!-- /.read-more -->
+  </article>
+</div><!-- /#main -->
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript">window.jQuery || document.write('<script type="text/javascript" src="https://hoff2.dev/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script type="text/javascript" src="https://hoff2.dev/assets/js/scripts.min.js"></script>
+<script type="text/javascript" async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
+<script type="text/javascript">!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+
+
+
+
+
+
+
+
+
+<div class="footer-wrapper">
+  <footer role="contentinfo">
+    <span>&copy; 2021 Chuck Hoffman. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="http://github.com/aron-bordin/neo-hpstr-jekyll-theme" rel="nofollow">Neo-HPSTR Theme</a>.</span>
+
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+</body>
+</html>

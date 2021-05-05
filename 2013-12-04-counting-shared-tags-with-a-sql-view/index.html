@@ -1,0 +1,635 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Counting shared tags (or other commonalities) with a SQL view &#8211; Chuck Hoffman</title>
+<meta name="description" content="A cool use for views in a rails app">
+<meta name="keywords" content="rails, ruby, sql">
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@hoff2dev">
+<meta name="twitter:creator" content="@hoff2dev">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Counting shared tags (or other commonalities) with a SQL view">
+<meta property="og:description" content="A cool use for views in a rails app">
+<meta property="og:url" content="https://hoff2.dev/2013-12-04-counting-shared-tags-with-a-sql-view/">
+<meta property="og:site_name" content="Chuck Hoffman">
+<meta property="og:image" content="https://hoff2.dev/images/">
+
+
+
+
+
+<link rel="canonical" href="https://hoff2.dev/2013-12-04-counting-shared-tags-with-a-sql-view/">
+<link href="https://hoff2.dev/feed.xml" type="application/atom+xml" rel="alternate" title="Chuck Hoffman Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="https://hoff2.dev/assets/css/main.css">
+<link rel="stylesheet" href="https://hoff2.dev/assets/css/jquery.mmenu.all.css">
+<link rel="stylesheet" href="https://hoff2.dev/assets/css/jquery.floating-social-share.min.css">
+<!-- Webfonts -->
+<link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel="stylesheet" type="text/css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script type="text/javascript" src="https://hoff2.dev/assets/js/vendor/modernizr-2.6.2.custom.min.js"></script>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="https://hoff2.dev/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="https://hoff2.dev/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="https://hoff2.dev/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://hoff2.dev/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://hoff2.dev/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://hoff2.dev/images/apple-touch-icon-144x144-precomposed.png">
+
+
+
+
+</head>
+
+<body id="post" >
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+
+
+<div class="header-menu header-menu-top">
+    <ul class="header-item-container">
+      <li class="header-item-title header-toggle "><a href="#menu"><h2><i class="fa fa-bars"></i></h2></a></li>
+      <li class="header-item-title">
+        <a href="https://hoff2.dev/">
+          
+          <a href="https://hoff2.dev/" class="title"> Chuck Hoffman</a>
+        </a>
+      </li>
+      
+        
+        
+
+        
+          <li class="header-item "><a href="https://hoff2.dev#"><h3>Social</h3></a>
+            <ul class="header-submenu">
+              
+                
+                  <li class="sub-item"><a href="https://twitter.com/hoff2dev" target="_blank">Twitter</a></li>
+                
+              
+                
+                  <li class="sub-item"><a href="https://github.com/hoff2" target="_blank">GitHub</a></li>
+                
+              
+                
+                  <li class="sub-item"><a href="https://linkedin.com/in/hoff2" target="_blank">LinkedIn</a></li>
+                
+              
+            </ul>
+          </li>
+        
+      
+        
+        
+
+        
+            
+                <li class="header-item "><a href="https://hoff2.dev/tags"><h3>Tags</h3></a></li>
+            
+        
+      
+        
+        
+
+        
+            
+                <li class="header-item "><a href="https://hoff2.dev/about"><h3>About</h3></a></li>
+            
+        
+      
+        
+        
+
+        
+            
+                <li class="header-item "><a href="https://hoff2.dev/"><h3>Home</h3></a></li>
+            
+        
+      
+      <li class="header-item"><a href="https://hoff2.dev/search"><h3><i class="fa fa-search"></i></h3></a></li>
+    </ul>
+  </div>
+
+  <div class="entry-header">
+    <div class="header-title">
+      <div class="header-title-wrap">
+        <h1>Counting shared tags (or other commonalities) with a SQL view</h1>
+        
+          <h2><span class="entry-date date published updated"><time datetime="2013-12-04T12:00:00+00:00">December 04, 2013</time></span></h2>
+        
+
+        
+            <p class="entry-reading-time">
+              &nbsp;
+            </p><!-- /.entry-reading-time -->
+        
+      </div><!-- /.header-title-wrap -->
+    </div><!-- /.header-title -->
+  </div><!-- /.entry-header -->
+
+
+
+<nav id="menu" style="display: none">
+  <ul>
+    
+      
+        <li><a href="https://hoff2.dev/"><h3>Home</h3></a></li>
+      
+    
+      
+        <li><a href="https://hoff2.dev/about"><h3>About</h3></a></li>
+      
+    
+      
+        <li><a href="https://hoff2.dev/tags"><h3>Tags</h3></a></li>
+      
+    
+      
+        <li><a href="https://hoff2.dev#"><h3>Social</h3></a>
+          <ul>
+            
+              
+                <li><a href="https://twitter.com/hoff2dev" target="_blank">Twitter</a></li>
+              
+            
+              
+                <li><a href="https://github.com/hoff2" target="_blank">GitHub</a></li>
+              
+            
+              
+                <li><a href="https://linkedin.com/in/hoff2" target="_blank">LinkedIn</a></li>
+              
+            
+          </ul>
+        </li>
+      
+    
+  </ul>
+</nav>
+
+
+  <a href="https://twitter.com/hoff2dev" class="btn btn-info button-twitter" data-show-count="false" data-size="large"><i class="fa fa-twitter"></i> <span> | Follow @hoff2dev</span></a>
+
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    <div class="entry-content">
+        
+      <p>Occasionally I surprise myself and end up feeling a desire to write
+about it and toot my own horn a little bit. What better place to do
+that than on a professional blog at least part of the purpose of which
+is to show prospective employers or clients that I’m good at stuff?</p>
+
+<h2 id="im-pretty-good-i-guess">I’m pretty good, I guess</h2>
+
+<p><em>note: personal background jabber, skip this section at will</em></p>
+
+<p>I’m largely self-taught in the area of databases and SQL. The only
+course I ever took on the subject was a quarter-length database class,
+circa 1999, at Hamilton College (since bought up by Kaplan, I think)
+as part of their two-year IT degree program. It used Microsoft Access
+and was very beginner-level and I think I might have been out sick on
+<code class="language-plaintext highlighter-rouge">join</code>s day. Later when pursuing my Computer Science degree I avoided
+the databases course out of dislike for the professor who taught it;
+the alternative course to meet the same requirement had more to do
+with text indexing, information theory – search-engine kind of stuff
+– and oddly enough, the course taught and used an open-source
+multi-dimensional hierarchical database and MUMPS compiler developed
+by the course’s professor (multi-dimensional databases are quite good
+at storing and comparing things like, vectors of the occurrences of
+hundreds of different words in a bunch of textual articles). So, yes,
+I learned MUMPS in college instead of SQL. Actually, you can
+<a href="http://www.cs.uni.edu/~okane/">download</a> and make-install the C++
+code for the MUMPS compiler we used yourself, which compiles MUMPS
+into C++, if you ever get a wild urge to do such a thing. In fact, I’d
+recommend it to my fellow programming language nerds, especially those
+interested in old, obscure, or just plain weird languages. At the very
+least you’ll have a little fun with it; and I believe MUMPS is even
+still in use in some corners of the health care industry, so you’d be
+picking up a skill that’s in some demand yet increasingly difficult to
+hire for. (While you’re at it, check out Dr. O’Kane’s <a href="http://amzn.com/1438243383">MUMPS
+book</a> and his rollicking, action-packed
+<a href="http://amzn.com/B001C8VA26">novel</a>.)</p>
+
+<p>At my first real programming job, I started out coding in Actionscript
+2.0 but when a particular developer left the company, someone was
+needed to take over server-side development in PHP, so I took it upon
+myself to learn PHP, and, as it turned out, also ended up needing to
+learn SQL and relational databases. I read a PHP book or two and a
+whole lot of blogs, but mostly just dove right in to the existing code
+and gradually made sense out of it. Eventually I was working back and
+forth between Actionscript and PHP pretty regularly. That kind of
+pick-it-up-as-needed approach is pretty much how I roll, though it’s
+hard to explain this kind of adaptability to recruiters who are
+looking to basically keyword-match your experience against a job
+description, which can be a real drag if you’re the type of person who
+craves new experiences. When at UNI I had been the kind of student
+that made a point of taking the more theoretical computer-sciencey
+courses, on the rationale that things like programming languages are
+certain to change in the future, but they will most likely continue to
+build on the same underlying theory dating at last as far back as good
+ol’ Alan Turing. I would say that approach has paid off well for me in
+the years since. My first boss described me in a LinkedIn endorsement
+as being capable of working in multiple programming languages
+simultaneously, “something which drives most of us insane.”</p>
+
+<p>But I digress (often). Like I said starting out this post, sometimes I
+still surprise myself. When I pull off something new or just more
+complex than I’m used to, it feels good, and I like to share it, not
+just to strut about, but also because I am sure others are out there
+trying to solve similar problems, and also to give credit to others
+whose work I drew on to arrive at my solution. And like I said, my SQL
+skills are largely the product of a few old blog posts and experience
+so I was pretty stoked at what I pulled off this week.</p>
+
+<h2 id="the-assignment">The assignment</h2>
+
+<p>I was given the task of populating a “related articles” part of a page
+on a news website. Naturally the first thing I thought we needed to
+hash out was how the system should conclude that two articles are
+related. After some discussion we arrived at this idea: we would score
+two articles’ relatedness based on:</p>
+
+<ul>
+  <li>The number of keyword tags they have in common (this was the same
+site using <a href="https://github.com/mbleigh/acts-as-taggable-on">acts_as_taggable_on</a> from which I drew
+<a href="/2013/11/09/acts_as_taggable_on_active_admin_select2.html">this recent post</a>)</li>
+  <li>The number of retailers they have in common (Article HABTM
+Retailer)</li>
+  <li>How close or far apart their <code class="language-plaintext highlighter-rouge">published_at</code> timestamps are (in
+months)</li>
+</ul>
+
+<h2 id="how-this-turns-out-to-be-slightly-difficult">How this turns out to be slightly difficult</h2>
+
+<p>This sounds perfectly reasonable, even like it would be pretty easy to
+express in an OO/procedural kind of way in Ruby or any other
+mainstream programming language. But once this site gets a long
+history of articles, it’s likely that looping or <code class="language-plaintext highlighter-rouge">#map</code>ing through all
+of them to work this out is going to get way too time and memory
+intensive to keep the site running responsively.</p>
+
+<p>Another alternative is to store relatedness scores in a database table
+and update them only when they need to change; we could hook in to
+Rails’s lifecycle callbacks like <code class="language-plaintext highlighter-rouge">after_save</code> so that when an article is
+created or saved, we insert or update a record for its relatedness to
+every other article. That still sounds intensive but we could at least
+kick off a background worker to handle it. However, I got the feeling
+that there was potential for errors caused by overlooking some event
+that would warrant recalculating this table, or missing some pairs.</p>
+
+<p>And there was still another wrinkle to work out: the relatedness
+scores pertain to pairs of articles, and those pairs should be
+considered un-ordered: the concept of article A’s relatedness to
+article B is identical to B’s relatedness to A. I don’t know if any
+databases have an unordered tuple data type and even if they did
+whether ActiveRecord would know how to use it. It seems wasteful and
+error-prone to maintain redundant records so as to have the pairings
+both ways around. Googling about for good ways to represent a
+symmetrical matrix in a SQL database didn’t bear much fruit. So it
+would probably be best to enforce an ordering (“always put the article
+with the lower ID first” seems reasonable). But then this means to
+look up related articles, we need to find the current article’s ID in
+one of <em>two</em> association columns, rather than just one, and then use
+the <em>other</em> column to find the related article. I’m pretty sure
+ActiveRecord doesn’t have a way to express this kind of thing as an
+association. Which is too bad, because ideally, if possible, we’d like
+to get the relatedness scores and related articles in the form of a
+<code class="language-plaintext highlighter-rouge">Relation</code> so that we can chain other operations like <code class="language-plaintext highlighter-rouge">#limit</code> or
+<code class="language-plaintext highlighter-rouge">#order</code> onto it. (Possibly we could write it as a <code class="language-plaintext highlighter-rouge">scope</code> with a
+lambda and give the model a method that passes <code class="language-plaintext highlighter-rouge">self.id</code> to that, but
+I’m still not sure we would get a <code class="language-plaintext highlighter-rouge">Relation</code> rather than an <code class="language-plaintext highlighter-rouge">Array</code>.
+The point at which ActiveRecord’s magic decides to convert from one to
+the other is something I find myself constantly guessing on, guessing
+wrong, and getting confused and annoyed trying to come up with a
+workaround.) But so it goes.</p>
+
+<p>Any way we look at this, it looks like we’re going to be stuck writing
+some pretty serious SQL “by hand”.</p>
+
+<p>I’m not going to show my whole solution here, but you probably don’t
+need all of it anyway. I think the most useful bit of it to share is
+the shared-tags calculation.</p>
+
+<h2 id="counting-shared-tags-in-sql">Counting shared tags in SQL</h2>
+
+<p>acts_as_taggable_on has some methods for matching any (or all) of
+the tags on a list, and versions of this that are aware of tag
+contexts (the gem supports giving things different kinds/contexts of
+tags, which I’m not going into here but it’s a cool feature). So
+obviously you can call <code class="language-plaintext highlighter-rouge">#tagged_with</code> using an Article’s tag list to
+get Articles that share tags with it, but the documentation doesn’t
+mention anything about ordering the results according to how many tags
+are matched, or even finding out that number. Well, here’s the SQL
+query I arrived at that uses acts_as_taggable_on’s <code class="language-plaintext highlighter-rouge">taggings</code> table
+to build a list of article pairs and counts of their shared tags. One
+nifty thing about it is that it involves joining a table to itself. To
+do this, you have to alias the tables so that you can specify which
+side of the join you mean when specifying columns, otherwise you’ll
+either get an ambiguous column name error or you’ll just get confused.
+You’ll see I’ve also added a condition in the join that the “first” id
+be lower than the “second,” forcing an ordering to the ID pairs so as
+to eliminate duplicate/reversed-order rows and also eliminate
+comparing any article with itself, since we don’t care to consider an
+article related to itself. (Also, the way this is written Article
+pairings with no shared tags won’t be returned at all. Maybe try a
+<code class="language-plaintext highlighter-rouge">left join</code> if you want that.)</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">select</span>
+  <span class="k">first</span><span class="p">.</span><span class="n">taggable_id</span> <span class="k">as</span> <span class="n">first_article_id</span><span class="p">,</span>
+  <span class="k">second</span><span class="p">.</span><span class="n">taggable_id</span> <span class="k">as</span> <span class="n">second_article_id</span><span class="p">,</span>
+  <span class="k">count</span><span class="p">(</span><span class="k">first</span><span class="p">.</span><span class="n">tag_id</span><span class="p">)</span> <span class="k">as</span> <span class="n">shared_tags</span>
+<span class="k">from</span> <span class="n">taggings</span> <span class="k">as</span> <span class="k">first</span>
+<span class="k">join</span> <span class="n">taggings</span> <span class="k">as</span> <span class="k">second</span>
+<span class="k">on</span>
+  <span class="k">first</span><span class="p">.</span><span class="n">tag_id</span> <span class="o">=</span> <span class="k">second</span><span class="p">.</span><span class="n">tag_id</span> <span class="k">and</span>
+  <span class="k">first</span><span class="p">.</span><span class="n">taggable_type</span> <span class="o">=</span> <span class="k">second</span><span class="p">.</span><span class="n">taggable_type</span> <span class="k">and</span>
+  <span class="k">first</span><span class="p">.</span><span class="n">taggable_id</span> <span class="o">&lt;</span> <span class="k">second</span><span class="p">.</span><span class="n">taggable_id</span>
+<span class="k">where</span> <span class="k">first</span><span class="p">.</span><span class="n">taggable_type</span> <span class="o">=</span> <span class="s1">'Article'</span>
+<span class="k">group</span> <span class="k">by</span> <span class="n">first_article_id</span><span class="p">,</span> <span class="n">second_article_id</span></code></pre></figure>
+
+<p>Add a <code class="language-plaintext highlighter-rouge">and first_article_id = 23 or second_article_id = 23</code> to the
+<code class="language-plaintext highlighter-rouge">where</code> clause here and you’ll get just the rows pertaining to article</p>
+<ol>
+  <li>Add an <code class="language-plaintext highlighter-rouge">order by shared_tags desc</code> and the rows will come back
+with the highest shared-tag-counts, the “most related,” at the top. If
+you’re looking to know the number of shared acts_as_taggable_on
+tags among your articles or whatever other model you have, here you
+are.</li>
+</ol>
+
+<h2 id="building-a-leaning-tower-of-sql">Building a leaning tower of SQL</h2>
+
+<p>So, for the other two relatedness factors, I did a similar query to
+this against the <code class="language-plaintext highlighter-rouge">articles_retailers</code> table to count shared retailers,
+and another on <code class="language-plaintext highlighter-rouge">articles</code> to compute the number of months apart that
+pairs of articles were published to the site. Each query used the same
+“first id less than second id” constraint. Then I pulled the three
+queries together as subqueries of one larger query, joining them by
+<code class="language-plaintext highlighter-rouge">first_article_id</code> and <code class="language-plaintext highlighter-rouge">second_article_id</code>, and added a calculated
+column whose value was the shared tags count plus the shared retailers
+count minus the months-apart count and call this their <code class="language-plaintext highlighter-rouge">score</code> – a
+heuristic, arbitrary measure of “how related” each pairing of articles
+is. (The <code class="language-plaintext highlighter-rouge">coalesce</code> function came in mighty handy here. Despite its
+esoteric-sounding name, all it does is exchange a null value for
+something else you specify, like you might do with <code class="language-plaintext highlighter-rouge">||</code> in Ruby – so
+<code class="language-plaintext highlighter-rouge">coalesce(shared_tags, 0)</code> returns 0 if <code class="language-plaintext highlighter-rouge">shared_tags</code> is null, or
+otherwise returns whatever <code class="language-plaintext highlighter-rouge">shared_tags</code> is, for example.)</p>
+
+<p>As you are probably picturing in your head, the resulting master
+relatedness-score query is <em>huge</em>. It took me a good couple hours at a
+MySQL command-line prompt composing the subqueries and overall query a
+little bit at a time. It felt <em>awesome</em>. But still: the result was one
+seriously big glob of SQL. (Incidentally iTerm2 acted up in a <em>really</em>
+weird way when I tried pasting these large blocks of code into it, but
+not when I was SSHed into a remote server; if this rings a bell to
+you, drop me a line.) I’m going to spare you the eye-bleeding caused
+by seeing the whole thing. You’re going to drop <em>that</em> big nasty thing
+in the middle of some ActiveRecord model? Yikes!</p>
+
+<h2 id="views-to-the-rescue">Views to the rescue</h2>
+
+<p>In a forum thread where I was looking for help on the implementation
+of all this, <a href="http://rietta.com/">Frank Rietta</a> suggested I consider using a
+database view. To be perfectly honest, I hadn’t used a view in years,
+if ever. I didn’t even think MySQL had them (yes, I’m using MySQL,
+don’t judge) – maybe some older version I used in the past didn’t and
+they’ve been added since? At first I wasn’t sure how this could help
+me, but then Frank wrote <a href="http://blog.rietta.com/blog/2013/11/28/rails-and-sql-views-for-a-report/">this excellent blog post</a>
+on the subject. I read it, and the more I thought about it, the better
+the idea sounded.</p>
+
+<p>Basically, a view acts like a regular database table, at least when it
+comes to querying it with a <code class="language-plaintext highlighter-rouge">select</code>. But underneath it’s based on
+some query you come up with of other tables and views. You can’t write
+to it, but it provides you with a different “view” of your data by
+what I would describe as “abstracting a query.” And because the view
+can be read from like any other table, it can also act as the table
+behind an ActiveRecord model (at least, until you try to <code class="language-plaintext highlighter-rouge">#save</code> to
+it). Go read <a href="http://blog.rietta.com/blog/2013/11/28/rails-and-sql-views-for-a-report/">Frank’s post</a> so I don’t have to recap
+it here. You’ll be glad you did.</p>
+
+<p>The great advantage of using a view to hold the relatedness scoring is
+that I don’t have to think about writing Ruby code to maintain the
+table of relatedness scores, I don’t have to think about background
+jobs or hooking into ActiveRecord lifecycle callbacks to maintain the
+data or any of that – the database itself keeps this “table” updated.
+Any time the tables it depends on change, it changes right along with
+them automatically. Plus it gets the big hairy SQL query out of my
+Ruby code where it won’t distract or confuse anyone; and it handles
+the issue of making sure <code class="language-plaintext highlighter-rouge">first_article_id</code> is always lower than
+<code class="language-plaintext highlighter-rouge">second_article_id</code> because that’s expressed right in the query it’s
+based on.</p>
+
+<p>So that settles it, I create a view out of my big relatedness-scoring
+query and an ActiveRecord model over top of it! Only one problem, and
+it turned out to be pretty minor, but as I mentioned, my big
+relatedness query involved a join over three subqueries. Turns out
+that in MySQL, views can’t have subqueries. Perhaps they can in other
+database engines, I would not be surprised, but not in MySQL. The
+workaround for this is to create views for the subqueries and query
+those views. Honestly that probably makes the SQL read more easily
+anyway. On the other hand, I ended up creating four views. That was
+definitely the longest Rails migration I have ever written, by far.</p>
+
+<h2 id="the-models-and-other-miscellaneous-thoughts">The models and other miscellaneous thoughts</h2>
+
+<p>So, now I have a table called <code class="language-plaintext highlighter-rouge">article_relations</code> that contains pairs
+of Article id’s and their relatedness scores, I can give it a model
+like this:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">ArticleRelation</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">belongs_to</span> <span class="ss">:first_article</span><span class="p">,</span>  <span class="ss">class_name: </span><span class="s1">'Article'</span>
+  <span class="n">belongs_to</span> <span class="ss">:second_article</span><span class="p">,</span> <span class="ss">class_name: </span><span class="s1">'Article'</span>
+
+  <span class="k">def</span> <span class="nf">other_article</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+    <span class="p">[</span><span class="n">first_article</span><span class="p">,</span> <span class="n">second_article</span><span class="p">].</span><span class="nf">find</span><span class="p">{</span><span class="o">|</span><span class="n">a</span><span class="o">|</span> <span class="n">a</span> <span class="o">!=</span> <span class="n">source</span><span class="p">}</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">readonly?</span>
+    <span class="kp">true</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>And give the Article model a couple methods like this:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby">  <span class="k">def</span> <span class="nf">article_relations</span>
+    <span class="no">ArticleRelation</span><span class="p">.</span><span class="nf">where</span><span class="p">(</span>
+      <span class="s1">'first_article_id = ? or second_article_id = ?'</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="nb">id</span><span class="p">).</span><span class="nf">order</span><span class="p">(</span><span class="s1">'score desc'</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">related_articles</span>
+    <span class="n">article_relations</span><span class="p">.</span><span class="nf">map</span><span class="p">{</span><span class="o">|</span><span class="n">r</span><span class="o">|</span> <span class="n">r</span><span class="p">.</span><span class="nf">other_article</span><span class="p">(</span><span class="nb">self</span><span class="p">)}</span>
+  <span class="k">end</span></code></pre></figure>
+
+<p>Or something to this effect. You’ll likely want to have your view only
+contain records where the score is above 0, for instance, or give the
+above methods an optional parameter to use in a <code class="language-plaintext highlighter-rouge">limit</code> so you can
+limit the number of related articles you show.</p>
+
+<p>Which reminds me, speaking of <code class="language-plaintext highlighter-rouge">#limit</code>… as I alluded to before, it
+would be great if I could do things like
+<code class="language-plaintext highlighter-rouge">@article.related_articles.limit(10)</code> here but I can’t. This bugs me a
+little bit, because it means that some of my queries to the Article
+class are going to call <code class="language-plaintext highlighter-rouge">#limit</code> and others will have to pass the
+limit as a parameter, or slice the array like <code class="language-plaintext highlighter-rouge">[0..9]</code> or something,
+so I have code where doing the “same” thing reads completely
+differently. (I am also unfortunate enough to still be working with
+Rails 2 regularly, where <code class="language-plaintext highlighter-rouge">limit</code> goes in an options hash. It appears
+if you try that syntax in Rails 3, it just ignores it.) There are
+other gems like <a href="https://github.com/biola/punching_bag">punching_bag</a> where this itches
+at me a little as well (not to mention, I’d like to be able to give my
+model a method or <code class="language-plaintext highlighter-rouge">scope</code> with a name more appropriate to my domain
+such as <code class="language-plaintext highlighter-rouge">popular</code> or <code class="language-plaintext highlighter-rouge">hot</code> and have that delegate to <code class="language-plaintext highlighter-rouge">most_hit</code>). I
+think this might just be a product of the usual leakiness of ORM
+abstractions and I’ll just have to get over it.</p>
+
+<p>One caveat that should be pointed out is that Rails’s generating of
+<code class="language-plaintext highlighter-rouge">schema.rb</code> doesn’t handle views “properly” and probably can’t be made
+to when you think about it or depending on what you think the proper
+thing for it to do would be. Rails will dump the structure of your
+views out as regular tables, so if you use <code class="language-plaintext highlighter-rouge">rake db:schema:load</code>
+you’ll get tables rather than views with all their cool magic. At this
+point it’s probably a good idea to uncomment that
+<code class="language-plaintext highlighter-rouge">config.active_record.schema_format = :sql</code> line in your
+<code class="language-plaintext highlighter-rouge">application.rb</code> configuration file, which will make <code class="language-plaintext highlighter-rouge">rake db:migrate</code>
+spit out a <code class="language-plaintext highlighter-rouge">structure.sql</code> file instead of <code class="language-plaintext highlighter-rouge">schema.rb</code>, and get rid of
+<code class="language-plaintext highlighter-rouge">schema.rb</code> altogether.</p>
+
+<p>Another thing worth considering, depending on the complexity of your
+view(s), is whether to make them
+<a href="https://en.wikipedia.org/wiki/Materialized_view">materialized views</a>. This is a view that’s
+backed by a physical table that gets updated as needed. It’s more
+efficient to query but a little slower to update so the effects of a
+change to one of the tables it depends on might not be reflected right
+away, but this may be a worthwhile trade-off to make.</p>
+
+<p>Join me next time when I talk about technical debt or something like
+that.</p>
+
+
+      <footer class="entry-meta">
+        <span class="entry-tags"><a href="https://hoff2.dev/tags#rails" title="Pages tagged rails" class="tag"><span class="term">rails</span></a><a href="https://hoff2.dev/tags#ruby" title="Pages tagged ruby" class="tag"><span class="term">ruby</span></a><a href="https://hoff2.dev/tags#sql" title="Pages tagged sql" class="tag"><span class="term">sql</span></a></span>
+        <span>Updated on <span class="entry-date date updated"><time datetime="2013-12-04">December 04, 2013</time></span></span>
+        
+        <span class="author vcard"><span class="fn">Chuck Hoffman</span></span>
+        <div class="social-share">
+  <ul class="socialcount socialcount-small inline-list">
+    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=https://hoff2.dev/2013-12-04-counting-shared-tags-with-a-sql-view/" title="Share on Facebook"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
+    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=https://hoff2.dev/2013-12-04-counting-shared-tags-with-a-sql-view/" title="Share on Twitter"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
+    <li class="googleplus"><a href="https://plus.google.com/share?url=https://hoff2.dev/2013-12-04-counting-shared-tags-with-a-sql-view/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li>
+  </ul>
+</div><!-- /.social-share -->
+
+      </footer>
+    </div><!-- /.entry-content -->
+    <div class="read-more">
+  <div class="read-more-header">
+    <a href="https://hoff2.dev" class="read-more-btn">About the Author</a>
+  </div><!-- /.read-more-header -->
+  <div class="read-more-content author-info">
+    <h3>Chuck Hoffman</h3>
+    <div class="author-container">
+      <img class="author-img" src="https://hoff2.dev/images/avatar.jpg" alt="Chuck Hoffman" />
+      <div class="author-bio">I'm from Iowa. I sling code for a living and get pretty into it. I also do some fun things with experimental music and retro-tech.</div>
+    </div>
+    <div class="author-share">
+      <ul class="list-inline social-buttons">
+        
+          <li><a href="https://github.com/hoff2" target="_blank"><i class="fa fa-github fa-fw"></i></a></li>
+        
+          <li><a href="https://linkedin.com/in/hoff2" target="_blank"><i class="fa fa-linkedin fa-fw"></i></a></li>
+        
+          <li><a href="https://twitter.com/hoff2dev" target="_blank"><i class="fa fa-twitter fa-fw"></i></a></li>
+        
+      </ul>
+      
+        <a aria-label="Follow @hoff2 on GitHub" data-style="mega" href="https://github.com/hoff2" class="github-button">Follow @hoff2</a>
+      
+      <br>
+      
+        <a href="https://twitter.com/hoff2dev" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @hoff2dev</a>
+      
+    </div>
+  </div>
+</div>
+
+    
+    <div class="read-more">
+  
+    <div class="read-more-header">
+      <a href="https://hoff2.dev/2013-11-09-acts_as_taggable_on_active_admin_select2/" class="read-more-btn">Read More</a>
+    </div><!-- /.read-more-header -->
+    <div class="read-more-content">
+      <h3><a href="https://hoff2.dev/2020-12-14-sql-and-nosql/" title="SQL and NoSQL">SQL and NoSQL</a></h3>
+      <p> > Recently I was given some job interview questions to prepare for. I decided > to try writing my thoughts on the subjects. I had fun wi...&hellip; <a href="https://hoff2.dev/2020-12-14-sql-and-nosql/">Continue reading</a></p>
+    </div><!-- /.read-more-content -->
+  
+  <div class="read-more-list">
+    
+      <div class="list-item">
+        <h4><a href="https://hoff2.dev/2020-12-11-dependency-injection/" title="Notes on Dependency Injection">Notes on Dependency Injection</a></h4>
+        <span>Published on December 11, 2020</span>
+      </div><!-- /.list-item -->
+    
+      <div class="list-item">
+        <h4><a href="https://hoff2.dev/2020-12-05-hello-again/" title="Hello again">Hello again</a></h4>
+        <span>Published on December 05, 2020</span>
+      </div><!-- /.list-item -->
+    
+  </div><!-- /.read-more-list -->
+</div><!-- /.read-more -->
+  </article>
+</div><!-- /#main -->
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript">window.jQuery || document.write('<script type="text/javascript" src="https://hoff2.dev/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script type="text/javascript" src="https://hoff2.dev/assets/js/scripts.min.js"></script>
+<script type="text/javascript" async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
+<script type="text/javascript">!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+
+
+
+
+
+
+
+
+
+<div class="footer-wrapper">
+  <footer role="contentinfo">
+    <span>&copy; 2021 Chuck Hoffman. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="http://github.com/aron-bordin/neo-hpstr-jekyll-theme" rel="nofollow">Neo-HPSTR Theme</a>.</span>
+
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+</body>
+</html>

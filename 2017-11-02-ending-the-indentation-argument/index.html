@@ -1,0 +1,391 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Ending the indentation argument &#8211; Chuck Hoffman</title>
+<meta name="description" content="Another programmer blog, lucky you.">
+<meta name="keywords" content="code, style">
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@hoff2dev">
+<meta name="twitter:creator" content="@hoff2dev">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ending the indentation argument">
+<meta property="og:description" content="Another programmer blog, lucky you.">
+<meta property="og:url" content="https://hoff2.dev/2017-11-02-ending-the-indentation-argument/">
+<meta property="og:site_name" content="Chuck Hoffman">
+<meta property="og:image" content="https://hoff2.dev/images/">
+
+
+
+
+
+<link rel="canonical" href="https://hoff2.dev/2017-11-02-ending-the-indentation-argument/">
+<link href="https://hoff2.dev/feed.xml" type="application/atom+xml" rel="alternate" title="Chuck Hoffman Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="https://hoff2.dev/assets/css/main.css">
+<link rel="stylesheet" href="https://hoff2.dev/assets/css/jquery.mmenu.all.css">
+<link rel="stylesheet" href="https://hoff2.dev/assets/css/jquery.floating-social-share.min.css">
+<!-- Webfonts -->
+<link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel="stylesheet" type="text/css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script type="text/javascript" src="https://hoff2.dev/assets/js/vendor/modernizr-2.6.2.custom.min.js"></script>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="https://hoff2.dev/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="https://hoff2.dev/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="https://hoff2.dev/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://hoff2.dev/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://hoff2.dev/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://hoff2.dev/images/apple-touch-icon-144x144-precomposed.png">
+
+
+
+
+</head>
+
+<body id="post" >
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+
+
+<div class="header-menu header-menu-top">
+    <ul class="header-item-container">
+      <li class="header-item-title header-toggle "><a href="#menu"><h2><i class="fa fa-bars"></i></h2></a></li>
+      <li class="header-item-title">
+        <a href="https://hoff2.dev/">
+          
+          <a href="https://hoff2.dev/" class="title"> Chuck Hoffman</a>
+        </a>
+      </li>
+      
+        
+        
+
+        
+          <li class="header-item "><a href="https://hoff2.dev#"><h3>Social</h3></a>
+            <ul class="header-submenu">
+              
+                
+                  <li class="sub-item"><a href="https://twitter.com/hoff2dev" target="_blank">Twitter</a></li>
+                
+              
+                
+                  <li class="sub-item"><a href="https://github.com/hoff2" target="_blank">GitHub</a></li>
+                
+              
+                
+                  <li class="sub-item"><a href="https://linkedin.com/in/hoff2" target="_blank">LinkedIn</a></li>
+                
+              
+            </ul>
+          </li>
+        
+      
+        
+        
+
+        
+            
+                <li class="header-item "><a href="https://hoff2.dev/tags"><h3>Tags</h3></a></li>
+            
+        
+      
+        
+        
+
+        
+            
+                <li class="header-item "><a href="https://hoff2.dev/about"><h3>About</h3></a></li>
+            
+        
+      
+        
+        
+
+        
+            
+                <li class="header-item "><a href="https://hoff2.dev/"><h3>Home</h3></a></li>
+            
+        
+      
+      <li class="header-item"><a href="https://hoff2.dev/search"><h3><i class="fa fa-search"></i></h3></a></li>
+    </ul>
+  </div>
+
+  <div class="entry-header">
+    <div class="header-title">
+      <div class="header-title-wrap">
+        <h1>Ending the indentation argument</h1>
+        
+          <h2><span class="entry-date date published updated"><time datetime="2017-11-02T02:25:02+00:00">November 02, 2017</time></span></h2>
+        
+
+        
+            <p class="entry-reading-time">
+              &nbsp;
+            </p><!-- /.entry-reading-time -->
+        
+      </div><!-- /.header-title-wrap -->
+    </div><!-- /.header-title -->
+  </div><!-- /.entry-header -->
+
+
+
+<nav id="menu" style="display: none">
+  <ul>
+    
+      
+        <li><a href="https://hoff2.dev/"><h3>Home</h3></a></li>
+      
+    
+      
+        <li><a href="https://hoff2.dev/about"><h3>About</h3></a></li>
+      
+    
+      
+        <li><a href="https://hoff2.dev/tags"><h3>Tags</h3></a></li>
+      
+    
+      
+        <li><a href="https://hoff2.dev#"><h3>Social</h3></a>
+          <ul>
+            
+              
+                <li><a href="https://twitter.com/hoff2dev" target="_blank">Twitter</a></li>
+              
+            
+              
+                <li><a href="https://github.com/hoff2" target="_blank">GitHub</a></li>
+              
+            
+              
+                <li><a href="https://linkedin.com/in/hoff2" target="_blank">LinkedIn</a></li>
+              
+            
+          </ul>
+        </li>
+      
+    
+  </ul>
+</nav>
+
+
+  <a href="https://twitter.com/hoff2dev" class="btn btn-info button-twitter" data-show-count="false" data-size="large"><i class="fa fa-twitter"></i> <span> | Follow @hoff2dev</span></a>
+
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    <div class="entry-content">
+        
+      <p><img src="/images/line-break-after.jpg" alt="original dank memeage" /></p>
+
+<p>I’m just going to come out and say it. I hate parameter aligning and I think it
+looks like crap. Especially for functions with long names. Nothing should be
+indented that far in the first place, but so much the less so when it’s just
+suddenly shunted over 20+ spaces rather than the product of a series of
+increasingly indented lines.</p>
+
+<p>This is really just an extension of my distaste for long lines. They tire my
+eyes out. There is <a href="http://usabilitynews.org/the-effects-of-line-length-on-reading-online-news/">science</a> about this. It’s why newspapers and magazines
+are printed in columns. But also, when reading code, I should have to use my
+horizontal scroll bar as little as possible. I used to be hardcore about an 80
+column limit but with some programming languages that gets very restricting, and
+then there are the matters of long names, literal strings, or long complex type
+annotations, second parameter lists, implicits, and so on. There should probably
+be some maximum to which only certain exceptions are allowed but I don’t have a
+definite number offhand. But if I have to scroll horizontally to even <em>see</em> the
+arguments you’re passing instead of thinking I’m looking at blank lines, I’m
+going to be annoyed. And if I can’t fit your code within the width of my screen,
+you should really re-evaluate your life choices. Preferably I should be able to
+read it fairly easily when I have two emacs buffers or Intellij editors up
+side-by-side, subject to choice of a reasonable font size.</p>
+
+<p>This is one of those dumb holy-war issues. People are irrationally attached to
+their coding styles, which themselves are a set of irrational aesthetic
+preferences onto which people subconsciously hang ideas about their identity and
+artistry. I think this is mostly a product of insecurity. As for
+parameter-aligning, as far as I can guess, it’s an idea people get from Lisp,
+and being a Lispy thing, it makes people feel smart. (Programmers do an awful
+lot of terrible things for that reason, like writing needlessly complex code
+where they should be abstracting something so it’s more readable, or
+gratuitously using esoteric language features or idioms. I used to do a hell of
+a lot of this kind of thing.) Well a lot of ideas people have gotten from Lisp
+have been bad ideas, and this would be one of them.</p>
+
+<p>If your argument/parameter list is long enough that you don’t want to put it all
+on the same line with the function name and whatever else, it’s fine to split it
+over more lines. I quite like one parameter per line, especially with case
+classes, but if the names are short I don’t mind grouping a few together on the
+same line either – more commonly so for arguments at a function call than for
+parameters at the function declaration. But you should usually start it by
+line-breaking after the opening paren of the list and then just indent it a
+normal indentation amount. It still reflects that you’re continuing from the
+previous line, but now you won’t have to realign them all everywhere if you
+change the function’s name. People seem to feel weird about line-breaking after
+an opening paren even though they have no qualms about doing so after an opening
+curly. Well, if this was Lisp they would <em>all</em> be parens, so stop worrying.</p>
+
+<p>There’s something to be said for having consistent style in a codebase that’s
+been worked on by several people, and getting it right by a standard should be
+as easy to do as possible; ideally, it should be possible to
+do <a href="https://medium.freecodecamp.org/why-robots-should-format-our-code-159fd06d17f7">automatically</a> using something like <a href="http://scalameta.org/scalafmt/">scalafmt</a> instead of leaving it
+up to the capricious whims and error-proneness of humans.</p>
+
+<p>An indentation scheme should reflect code structure, not have to be too fiddly
+to accommodate changes, and easy to enforce with a static analyzer. It should
+not take up an inordinate amount of a coder’s time. Thus it is I propose a
+simple scheme that I do not strictly follow myself as yet, but which I think has
+quite a bit of potential. Indentation should be a number of spaces (or this
+works with tabs too, but not with mixing them together, which you should never
+do anyway) determined by a simple linear function <em>y = mx + b</em>, where <em>b</em> is
+some constant indentation level started with (probably 0 in most cases); <em>m</em>,
+also a constant, is your tab width (two spaces, or three, or whatever is common
+idiom of the language or decided on by team, project, or company); and <em>x</em>, the
+variable, is the number of expression delimiters (i.e. parens, brackets,
+begin/end pairs) left unclosed as of the start of the line. (This doesn’t
+include things that delimit literals, such as the quotes around strings.)</p>
+
+<p>This does have some potential to look a little odd in places where x is more
+than one greater than on the preceding line, and it doesn’t account for <code class="language-plaintext highlighter-rouge">case</code>
+or <code class="language-plaintext highlighter-rouge">if</code> branches that don’t have brackets around them (consider them to have
+imaginary brackets maybe? Some companies’ standards just say to always use the
+brackets), but generally it allows you in such cases to put the closing
+delimiters on separate lines and reflect the depth of structure they are closing
+without having any of them end up at the same indentation level. Closing
+delimiters that are at the start of a line should end up aligned with the start
+of the line they were opened on pretty easily this way.</p>
+
+<p>That’s all I have on that, but I’m interested in feedback. Naturally, none of
+this applies to Lisp dialects which tend to have their own established
+conventions and I imagine Lispers would have all sorts of reasons for hating
+this idea, but I don’t much care what those grey neckbeards think. (Maybe
+Clojure people would be more willing to give it a try but I don’t promise it
+will look good, I haven’t tried it in any Lispy syntaxen, which as we all know
+are weird anyway.) What I like about this method is its simplicity and relative
+lack of special cases or aesthetic judgement calls, which make it ideal for an
+automatic formatter.</p>
+
+
+      <footer class="entry-meta">
+        <span class="entry-tags"><a href="https://hoff2.dev/tags#code" title="Pages tagged code" class="tag"><span class="term">code</span></a><a href="https://hoff2.dev/tags#style" title="Pages tagged style" class="tag"><span class="term">style</span></a></span>
+        <span>Updated on <span class="entry-date date updated"><time datetime="2017-11-01 21:25:02 -0500">November 01, 2017</time></span></span>
+        
+        <span class="author vcard"><span class="fn">Chuck Hoffman</span></span>
+        <div class="social-share">
+  <ul class="socialcount socialcount-small inline-list">
+    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=https://hoff2.dev/2017-11-02-ending-the-indentation-argument/" title="Share on Facebook"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
+    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=https://hoff2.dev/2017-11-02-ending-the-indentation-argument/" title="Share on Twitter"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
+    <li class="googleplus"><a href="https://plus.google.com/share?url=https://hoff2.dev/2017-11-02-ending-the-indentation-argument/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li>
+  </ul>
+</div><!-- /.social-share -->
+
+      </footer>
+    </div><!-- /.entry-content -->
+    <div class="read-more">
+  <div class="read-more-header">
+    <a href="https://hoff2.dev" class="read-more-btn">About the Author</a>
+  </div><!-- /.read-more-header -->
+  <div class="read-more-content author-info">
+    <h3>Chuck Hoffman</h3>
+    <div class="author-container">
+      <img class="author-img" src="https://hoff2.dev/images/avatar.jpg" alt="Chuck Hoffman" />
+      <div class="author-bio">I'm from Iowa. I sling code for a living and get pretty into it. I also do some fun things with experimental music and retro-tech.</div>
+    </div>
+    <div class="author-share">
+      <ul class="list-inline social-buttons">
+        
+          <li><a href="https://github.com/hoff2" target="_blank"><i class="fa fa-github fa-fw"></i></a></li>
+        
+          <li><a href="https://linkedin.com/in/hoff2" target="_blank"><i class="fa fa-linkedin fa-fw"></i></a></li>
+        
+          <li><a href="https://twitter.com/hoff2dev" target="_blank"><i class="fa fa-twitter fa-fw"></i></a></li>
+        
+      </ul>
+      
+        <a aria-label="Follow @hoff2 on GitHub" data-style="mega" href="https://github.com/hoff2" class="github-button">Follow @hoff2</a>
+      
+      <br>
+      
+        <a href="https://twitter.com/hoff2dev" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @hoff2dev</a>
+      
+    </div>
+  </div>
+</div>
+
+    
+    <div class="read-more">
+  
+    <div class="read-more-header">
+      <a href="https://hoff2.dev/2015-07-14-self-abuse/" class="read-more-btn">Read More</a>
+    </div><!-- /.read-more-header -->
+    <div class="read-more-content">
+      <h3><a href="https://hoff2.dev/2020-12-14-sql-and-nosql/" title="SQL and NoSQL">SQL and NoSQL</a></h3>
+      <p> > Recently I was given some job interview questions to prepare for. I decided > to try writing my thoughts on the subjects. I had fun wi...&hellip; <a href="https://hoff2.dev/2020-12-14-sql-and-nosql/">Continue reading</a></p>
+    </div><!-- /.read-more-content -->
+  
+  <div class="read-more-list">
+    
+      <div class="list-item">
+        <h4><a href="https://hoff2.dev/2020-12-11-dependency-injection/" title="Notes on Dependency Injection">Notes on Dependency Injection</a></h4>
+        <span>Published on December 11, 2020</span>
+      </div><!-- /.list-item -->
+    
+      <div class="list-item">
+        <h4><a href="https://hoff2.dev/2020-12-05-hello-again/" title="Hello again">Hello again</a></h4>
+        <span>Published on December 05, 2020</span>
+      </div><!-- /.list-item -->
+    
+  </div><!-- /.read-more-list -->
+</div><!-- /.read-more -->
+  </article>
+</div><!-- /#main -->
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript">window.jQuery || document.write('<script type="text/javascript" src="https://hoff2.dev/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script type="text/javascript" src="https://hoff2.dev/assets/js/scripts.min.js"></script>
+<script type="text/javascript" async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
+<script type="text/javascript">!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+
+
+
+
+
+
+
+
+
+<div class="footer-wrapper">
+  <footer role="contentinfo">
+    <span>&copy; 2021 Chuck Hoffman. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="http://github.com/aron-bordin/neo-hpstr-jekyll-theme" rel="nofollow">Neo-HPSTR Theme</a>.</span>
+
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+</body>
+</html>

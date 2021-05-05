@@ -1,0 +1,528 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>acts_as_taggable_on tagging in Active Admin with Select2 and remote data &#8211; Chuck Hoffman</title>
+<meta name="description" content="A post about making a tag input for Active Admin">
+<meta name="keywords" content="rails, ruby, acts-as-taggable, active-admin, select2">
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@hoff2dev">
+<meta name="twitter:creator" content="@hoff2dev">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="acts_as_taggable_on tagging in Active Admin with Select2 and remote data">
+<meta property="og:description" content="A post about making a tag input for Active Admin">
+<meta property="og:url" content="https://hoff2.dev/2013-11-09-acts_as_taggable_on_active_admin_select2/">
+<meta property="og:site_name" content="Chuck Hoffman">
+<meta property="og:image" content="https://hoff2.dev/images/">
+
+
+
+
+
+<link rel="canonical" href="https://hoff2.dev/2013-11-09-acts_as_taggable_on_active_admin_select2/">
+<link href="https://hoff2.dev/feed.xml" type="application/atom+xml" rel="alternate" title="Chuck Hoffman Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="https://hoff2.dev/assets/css/main.css">
+<link rel="stylesheet" href="https://hoff2.dev/assets/css/jquery.mmenu.all.css">
+<link rel="stylesheet" href="https://hoff2.dev/assets/css/jquery.floating-social-share.min.css">
+<!-- Webfonts -->
+<link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel="stylesheet" type="text/css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script type="text/javascript" src="https://hoff2.dev/assets/js/vendor/modernizr-2.6.2.custom.min.js"></script>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="https://hoff2.dev/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="https://hoff2.dev/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="https://hoff2.dev/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://hoff2.dev/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://hoff2.dev/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://hoff2.dev/images/apple-touch-icon-144x144-precomposed.png">
+
+
+
+
+</head>
+
+<body id="post" >
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+
+
+<div class="header-menu header-menu-top">
+    <ul class="header-item-container">
+      <li class="header-item-title header-toggle "><a href="#menu"><h2><i class="fa fa-bars"></i></h2></a></li>
+      <li class="header-item-title">
+        <a href="https://hoff2.dev/">
+          
+          <a href="https://hoff2.dev/" class="title"> Chuck Hoffman</a>
+        </a>
+      </li>
+      
+        
+        
+
+        
+          <li class="header-item "><a href="https://hoff2.dev#"><h3>Social</h3></a>
+            <ul class="header-submenu">
+              
+                
+                  <li class="sub-item"><a href="https://twitter.com/hoff2dev" target="_blank">Twitter</a></li>
+                
+              
+                
+                  <li class="sub-item"><a href="https://github.com/hoff2" target="_blank">GitHub</a></li>
+                
+              
+                
+                  <li class="sub-item"><a href="https://linkedin.com/in/hoff2" target="_blank">LinkedIn</a></li>
+                
+              
+            </ul>
+          </li>
+        
+      
+        
+        
+
+        
+            
+                <li class="header-item "><a href="https://hoff2.dev/tags"><h3>Tags</h3></a></li>
+            
+        
+      
+        
+        
+
+        
+            
+                <li class="header-item "><a href="https://hoff2.dev/about"><h3>About</h3></a></li>
+            
+        
+      
+        
+        
+
+        
+            
+                <li class="header-item "><a href="https://hoff2.dev/"><h3>Home</h3></a></li>
+            
+        
+      
+      <li class="header-item"><a href="https://hoff2.dev/search"><h3><i class="fa fa-search"></i></h3></a></li>
+    </ul>
+  </div>
+
+  <div class="entry-header">
+    <div class="header-title">
+      <div class="header-title-wrap">
+        <h1>acts_as_taggable_on tagging in Active Admin with Select2 and remote data</h1>
+        
+          <h2><span class="entry-date date published updated"><time datetime="2013-11-09T15:20:00+00:00">November 09, 2013</time></span></h2>
+        
+
+        
+            <p class="entry-reading-time">
+              &nbsp;
+            </p><!-- /.entry-reading-time -->
+        
+      </div><!-- /.header-title-wrap -->
+    </div><!-- /.header-title -->
+  </div><!-- /.entry-header -->
+
+
+
+<nav id="menu" style="display: none">
+  <ul>
+    
+      
+        <li><a href="https://hoff2.dev/"><h3>Home</h3></a></li>
+      
+    
+      
+        <li><a href="https://hoff2.dev/about"><h3>About</h3></a></li>
+      
+    
+      
+        <li><a href="https://hoff2.dev/tags"><h3>Tags</h3></a></li>
+      
+    
+      
+        <li><a href="https://hoff2.dev#"><h3>Social</h3></a>
+          <ul>
+            
+              
+                <li><a href="https://twitter.com/hoff2dev" target="_blank">Twitter</a></li>
+              
+            
+              
+                <li><a href="https://github.com/hoff2" target="_blank">GitHub</a></li>
+              
+            
+              
+                <li><a href="https://linkedin.com/in/hoff2" target="_blank">LinkedIn</a></li>
+              
+            
+          </ul>
+        </li>
+      
+    
+  </ul>
+</nav>
+
+
+  <a href="https://twitter.com/hoff2dev" class="btn btn-info button-twitter" data-show-count="false" data-size="large"><i class="fa fa-twitter"></i> <span> | Follow @hoff2dev</span></a>
+
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    <div class="entry-content">
+        
+      <p>I wanted a really fly keyword tagging input in my app that let me do
+what I’m already pretty used to doing with Wordpress’s tagging:
+auto-complete existing tags to help me maintain consistency, but also
+let me make up new tags on the spot.</p>
+
+<p><a href="http://ivaynberg.github.io/select2/">Select2</a> is nice as heck, and has a tagging
+functionality that does just what I’m looking for and is even prettier
+than what Wordpress has. The section on “Tagging Support” on the
+website looked like pretty much exactly what I wanted, but there were
+a few things to iron out: Firstly, I didn’t want to have to stick all
+the existing tags in the javascript or in the view. Yeah it’s cool
+that the asset pipeline <em>lets</em> us do .js.erb but it just feels wrong;
+and that list of all the existing tags could get pretty big, so
+jamming it all into an HTML attribute feels even more wrong. What I
+wanted was that AJAXy searching autocomplete where you start typing
+and it fetches a list from the server and that list narrows down as
+you type more letters. And on top of it all, I was doing this in
+Active Admin in a Rails 3 app.</p>
+
+<p><img src="/images/select2_tagging.png" alt="image Select2 docs screenshot" /></p>
+
+<p><a href="https://github.com/argerim/select2-rails">select2-rails</a> takes care of a good bit of that
+last bit, though it doesn’t do too much more than package it up for
+the asset pipeline. I had to wrestle with it quite a bit more, hacking
+bits and pieces together from different documentation, blogs, and
+StackOverflow threads, before everything would behave like I wanted,
+even though I didn’t think what I was after was particularly exotic.
+So naturally the right thing do to once I got it all working was to
+write it up here. I think even if you’re not using Active Admin, a lot
+of this will still help without too much adjustment, especially if
+you’re using Formtastic.</p>
+
+<p>First off you’ll want <code class="language-plaintext highlighter-rouge">gem 'select2-rails'</code> and <code class="language-plaintext highlighter-rouge">gem
+'acts-as-taggable-on'</code> in your Gemfile and bundle install’d. Then pull
+the select2 javascript into your app by putting <code class="language-plaintext highlighter-rouge">//= require select2</code>
+in your <code class="language-plaintext highlighter-rouge">active_admin.js</code> – or application.js if you want to also
+have it available in non-admin parts of your app – and that same line
+in <code class="language-plaintext highlighter-rouge">active_admin.css.scss</code>. If some stuff still looks visually out of
+whack later on, try adding this at the end of
+<code class="language-plaintext highlighter-rouge">active_admin.css.scss</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>body.active_admin {
+  @import 'select2'
+}
+</code></pre></div></div>
+
+<p>So now we get into how to put this in your Active Admin form. We’ll
+make it an input for <code class="language-plaintext highlighter-rouge">acts_as_taggable_on</code>’s <code class="language-plaintext highlighter-rouge">tag_list</code> accessor
+because it does such a nice job of Doing What You Mean with very
+little fuss. Here’s a somewhat redacted excerpt from my
+<code class="language-plaintext highlighter-rouge">app/admin/articles.rb</code>:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">form</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span>
+  <span class="n">f</span><span class="p">.</span><span class="nf">inputs</span> <span class="k">do</span>
+    <span class="n">f</span><span class="p">.</span><span class="nf">input</span> <span class="ss">:title</span>
+    <span class="n">f</span><span class="p">.</span><span class="nf">input</span> <span class="ss">:content</span><span class="p">,</span> <span class="ss">as: :rich</span>
+    <span class="n">f</span><span class="p">.</span><span class="nf">input</span> <span class="ss">:tag_list</span><span class="p">,</span>
+      <span class="ss">label: </span><span class="s2">"Tags"</span><span class="p">,</span>
+      <span class="ss">input_html: </span><span class="p">{</span>
+        <span class="ss">data: </span><span class="p">{</span>
+          <span class="ss">placeholder: </span><span class="s2">"Enter tags"</span><span class="p">,</span>
+          <span class="ss">saved: </span><span class="n">f</span><span class="p">.</span><span class="nf">object</span><span class="p">.</span><span class="nf">tags</span><span class="p">.</span><span class="nf">map</span><span class="p">{</span><span class="o">|</span><span class="n">t</span><span class="o">|</span> <span class="p">{</span><span class="ss">id: </span><span class="n">t</span><span class="p">.</span><span class="nf">name</span><span class="p">,</span> <span class="ss">name: </span><span class="n">t</span><span class="p">.</span><span class="nf">name</span><span class="p">}}.</span><span class="nf">to_json</span><span class="p">,</span>
+          <span class="ss">url: </span><span class="n">autocomplete_tags_path</span> <span class="p">},</span>
+        <span class="ss">class: </span><span class="s1">'tagselect'</span>
+      <span class="p">}</span>
+  <span class="k">end</span>
+  <span class="n">f</span><span class="p">.</span><span class="nf">buttons</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>As you can see, there’s quite a few attributes being given to the
+input’s HTML element, which Select2 will then hide and manipulate
+behind the scenes while presenting us the very cool tagging widget we
+love. The <code class="language-plaintext highlighter-rouge">class</code> could be whatever we want, but it’s what we’ll be
+using to find this element in the javascript we’ll get to momentarily.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">data</code> hash gets placed on the input as data attributes. This is
+data we want to make available to said javascript. <code class="language-plaintext highlighter-rouge">saved</code> is for the
+article’s current tags, so that the widget can render those right
+away. Select2 expects to work with a JSON array of objects, but you’re
+probably wondering why I’m passing both an <code class="language-plaintext highlighter-rouge">id</code> and a <code class="language-plaintext highlighter-rouge">name</code> but
+setting both values to the tag’s name.</p>
+
+<p>The thing is, since we’re using the <code class="language-plaintext highlighter-rouge">tag_list</code> accessor, we don’t
+really care about the tags’ IDs. I think that’s fine, after all,
+conceptually, a tag’s name <em>is</em> it’s identifying attribute. It would
+be a perfectly reasonable design for the <code class="language-plaintext highlighter-rouge">tags</code> database table to not
+have an <code class="language-plaintext highlighter-rouge">id</code> column at all and have <code class="language-plaintext highlighter-rouge">name</code> be the primary key – that
+would match our mental model of tags – but this is Rails where
+everything has to have an <code class="language-plaintext highlighter-rouge">id</code>. More to the point, Select2 won’t
+render the tags right, or at all, if they don’t have an <code class="language-plaintext highlighter-rouge">id</code> attribute
+with <em>something</em> in it. But when I used the tags’ actual ID there, the
+IDs were ending up among the array of tag names in the params coming
+in to the Rails app causing me to end up with extraneous tags getting
+created whose names <em>were</em> those IDs, and that was awful. There might
+be other ways around this.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">url</code> data attribute is there to tell Select2 where to find the
+remote service to look up tags in for the auto-complete. It’s up to
+you whether you want to set this up in another controller, what you
+want to name it, and so on. In my case, just keeping it simple, I
+added it to Active Admin’s controller for my <code class="language-plaintext highlighter-rouge">app/admin.articles.rb</code>,
+like so:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">controller</span> <span class="k">do</span>
+  <span class="k">def</span> <span class="nf">autocomplete_tags</span>
+    <span class="vi">@tags</span> <span class="o">=</span> <span class="no">ActsAsTaggableOn</span><span class="o">::</span><span class="no">Tag</span><span class="p">.</span>
+      <span class="nf">where</span><span class="p">(</span><span class="s2">"name LIKE ?"</span><span class="p">,</span> <span class="s2">"</span><span class="si">#{</span><span class="n">params</span><span class="p">[</span><span class="ss">:q</span><span class="p">]</span><span class="si">}</span><span class="s2">%"</span><span class="p">).</span>
+      <span class="nf">order</span><span class="p">(</span><span class="ss">:name</span><span class="p">)</span>
+    <span class="n">respond_to</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
+      <span class="nb">format</span><span class="p">.</span><span class="nf">json</span> <span class="p">{</span> <span class="n">render</span> <span class="ss">json: </span><span class="vi">@tags</span> <span class="p">,</span> <span class="ss">:only</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="ss">:id</span><span class="p">,</span> <span class="ss">:name</span><span class="p">]</span> <span class="p">}</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>and correspondingly, in config/routes.rb:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">get</span> <span class="s1">'/admin/autocomplete_tags'</span><span class="p">,</span>
+  <span class="ss">to: </span><span class="s1">'admin/articles#autocomplete_tags'</span><span class="p">,</span>
+  <span class="ss">as: </span><span class="s1">'autocomplete_tags'</span></code></pre></figure>
+
+<p>Fairly straightforward what’s going on here, we’ll be having Select2
+pass in what we’ve typed so far in the <code class="language-plaintext highlighter-rouge">q</code> param and using a SQL
+<code class="language-plaintext highlighter-rouge">LIKE</code> query to give back tags to offer in the little auto-complete
+list.</p>
+
+<p>And now, the javascript to fire up Select2’s tag input magic. Right
+now I just have this tacked on the end of <code class="language-plaintext highlighter-rouge">active_admin.js</code> but it’s a
+significant enough piece of code that I’d feel justified putting it in
+a separate file and <code class="language-plaintext highlighter-rouge">//= require</code>-ing it.</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">ready</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">$</span><span class="p">(</span><span class="dl">'</span><span class="s1">.tagselect</span><span class="dl">'</span><span class="p">).</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">placeholder</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">data</span><span class="p">(</span><span class="dl">'</span><span class="s1">placeholder</span><span class="dl">'</span><span class="p">);</span>
+        <span class="kd">var</span> <span class="nx">url</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">data</span><span class="p">(</span><span class="dl">'</span><span class="s1">url</span><span class="dl">'</span><span class="p">);</span>
+        <span class="kd">var</span> <span class="nx">saved</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">data</span><span class="p">(</span><span class="dl">'</span><span class="s1">saved</span><span class="dl">'</span><span class="p">);</span>
+        <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">select2</span><span class="p">({</span>
+            <span class="na">tags</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="na">placeholder</span><span class="p">:</span> <span class="nx">placeholder</span><span class="p">,</span>
+            <span class="na">minimumInputLength</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="na">initSelection</span> <span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">element</span><span class="p">,</span> <span class="nx">callback</span><span class="p">){</span>
+                <span class="nx">saved</span> <span class="o">&amp;&amp;</span> <span class="nx">callback</span><span class="p">(</span><span class="nx">saved</span><span class="p">);</span>
+            <span class="p">},</span>
+            <span class="na">ajax</span><span class="p">:</span> <span class="p">{</span>
+                <span class="na">url</span><span class="p">:</span> <span class="nx">url</span><span class="p">,</span>
+                <span class="na">dataType</span><span class="p">:</span> <span class="dl">'</span><span class="s1">json</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">data</span><span class="p">:</span>    <span class="kd">function</span><span class="p">(</span><span class="nx">term</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="p">{</span> <span class="na">q</span><span class="p">:</span> <span class="nx">term</span> <span class="p">};</span> <span class="p">},</span>
+                <span class="na">results</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="p">{</span> <span class="na">results</span><span class="p">:</span> <span class="nx">data</span> <span class="p">};</span> <span class="p">}</span>
+            <span class="p">},</span>
+            <span class="na">createSearchChoice</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">term</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="nx">data</span><span class="p">).</span><span class="nx">filter</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+                    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">.</span><span class="nx">localeCompare</span><span class="p">(</span><span class="nx">term</span><span class="p">)</span><span class="o">===</span><span class="mi">0</span><span class="p">;</span>
+                <span class="p">}).</span><span class="nx">length</span><span class="o">===</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">return</span> <span class="p">{</span> <span class="na">id</span><span class="p">:</span> <span class="nx">term</span><span class="p">,</span> <span class="na">name</span><span class="p">:</span> <span class="nx">term</span> <span class="p">};</span>
+                <span class="p">}</span>
+            <span class="p">},</span>
+            <span class="na">formatResult</span><span class="p">:</span>    <span class="kd">function</span><span class="p">(</span><span class="nx">item</span><span class="p">,</span> <span class="nx">page</span><span class="p">){</span> <span class="k">return</span> <span class="nx">item</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span> <span class="p">},</span>
+            <span class="na">formatSelection</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">item</span><span class="p">,</span> <span class="nx">page</span><span class="p">){</span> <span class="k">return</span> <span class="nx">item</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span> <span class="p">}</span>
+        <span class="p">});</span>
+    <span class="p">});</span>
+<span class="p">});</span></code></pre></figure>
+
+<p>So at the top you can see I start with a jQuery selector of that
+“tagselect” class I put on in the <code class="language-plaintext highlighter-rouge">input_html</code> option, then grab the
+values off those data attributes, then call <code class="language-plaintext highlighter-rouge">select2</code> on the element
+with a whole mess of the options it accepts. The most interesting
+bits:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">tags: true</code> is the simplest way to tell Select2 this is a tagging
+input without having to tell is what tags to autocomplete for up
+front.</li>
+  <li><code class="language-plaintext highlighter-rouge">minimumInputLength</code> is how many letters we want the user to type
+before we start trying to suggest completions.</li>
+  <li><code class="language-plaintext highlighter-rouge">initSelection</code> is used to set up the tagging input at the start,
+to get it to display what we brought in the <code class="language-plaintext highlighter-rouge">saved</code> data attribute.</li>
+  <li><code class="language-plaintext highlighter-rouge">ajax</code> sets up the call to our <code class="language-plaintext highlighter-rouge">autocomplete_tags</code> action described
+before.</li>
+  <li><code class="language-plaintext highlighter-rouge">createSearchChoice</code> is where we tell Select2 how to put the
+results of that call in the autocomplete list. The snarly-looking
+conditional here is just to filter out duplicates of tags we’ve
+already got picked out. As long as it’s not a duplicate, we whip up
+another <code class="language-plaintext highlighter-rouge">id</code>/<code class="language-plaintext highlighter-rouge">name</code> object just like we did when we set up the
+<code class="language-plaintext highlighter-rouge">saved</code> data attribute.</li>
+  <li><code class="language-plaintext highlighter-rouge">formatResult</code> and <code class="language-plaintext highlighter-rouge">formatSelection</code> look for a <code class="language-plaintext highlighter-rouge">text</code> attribute if
+you don’t tell them otherwise so I’m telling them to use <code class="language-plaintext highlighter-rouge">name</code>.</li>
+</ul>
+
+<p>And that’s pretty much all it takes. I had to complicate it up pretty
+heavily in order to see how to get it this simple, now you don’t have
+to. Have fun!</p>
+
+<p><em>update 6 September 2014:</em> Samo Zeleznik writes in:</p>
+
+<blockquote>
+  <p>When I create a new post with a tag that is the same as a tag that
+was already created prior to that it does not save it by it’s name,
+but by it’s id. So it creates a new entry in the tags table that has a
+unique id, but the name of that tag is the id of the real tag.</p>
+</blockquote>
+
+<blockquote>
+  <p>What I just wrote is probably a little bit confusing so let me
+explain it with an example: I have a post tagged with “math” and this
+tag has an ID of 5. Now I create a new post and I tag also tag it with
+“math”. Now when I save this post it will bi tagged with 5. So It
+creates a new tag with a unique id (6 for example) and names it 5 (id
+of math). Do you have any idea what could be causing this issue?</p>
+</blockquote>
+
+<p>Around the same time, David Sigley tweets me with what appears to be
+the same issue.</p>
+
+<p>As it’s been quite a while, all I could offer was that I sorta
+remembered having trouble with tags getting named their IDs instead of
+their names before and there was some hack I had to do, and I may not
+have done enough to point it out and explain it above. Later Samo sent
+me <a href="https://stackoverflow.com/questions/24728983/acts-as-taggable-on-and-select2-returning-weird-results-in-active-admin/25428442#25428442">this StackOverflow question</a> where he got
+it worked out, and the solution comports with the ruby code above that
+looks like this: <code class="language-plaintext highlighter-rouge">f.object.tags.map{|t| {id: t.name, name:
+t.name}}.to_json</code>. Note how the hash/JSON has an <code class="language-plaintext highlighter-rouge">id</code> key and a <code class="language-plaintext highlighter-rouge">name</code>
+key, but the value at both is the tag’s name. Later the Javascript
+does something siliar: <code class="language-plaintext highlighter-rouge">return { id: term, name: term };</code> Then <a href="https://twitter.com/Sigularusrex/status/503536715920068608">David
+figured it out too</a>. I don’t have a really clear idea of
+why it has to be this way, it’s a hack, but there you have it.</p>
+
+
+      <footer class="entry-meta">
+        <span class="entry-tags"><a href="https://hoff2.dev/tags#rails" title="Pages tagged rails" class="tag"><span class="term">rails</span></a><a href="https://hoff2.dev/tags#ruby" title="Pages tagged ruby" class="tag"><span class="term">ruby</span></a><a href="https://hoff2.dev/tags#acts-as-taggable" title="Pages tagged acts-as-taggable" class="tag"><span class="term">acts-as-taggable</span></a><a href="https://hoff2.dev/tags#active-admin" title="Pages tagged active-admin" class="tag"><span class="term">active-admin</span></a><a href="https://hoff2.dev/tags#select2" title="Pages tagged select2" class="tag"><span class="term">select2</span></a></span>
+        <span>Updated on <span class="entry-date date updated"><time datetime="2013-11-09">November 09, 2013</time></span></span>
+        
+        <span class="author vcard"><span class="fn">Chuck Hoffman</span></span>
+        <div class="social-share">
+  <ul class="socialcount socialcount-small inline-list">
+    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=https://hoff2.dev/2013-11-09-acts_as_taggable_on_active_admin_select2/" title="Share on Facebook"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
+    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=https://hoff2.dev/2013-11-09-acts_as_taggable_on_active_admin_select2/" title="Share on Twitter"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
+    <li class="googleplus"><a href="https://plus.google.com/share?url=https://hoff2.dev/2013-11-09-acts_as_taggable_on_active_admin_select2/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li>
+  </ul>
+</div><!-- /.social-share -->
+
+      </footer>
+    </div><!-- /.entry-content -->
+    <div class="read-more">
+  <div class="read-more-header">
+    <a href="https://hoff2.dev" class="read-more-btn">About the Author</a>
+  </div><!-- /.read-more-header -->
+  <div class="read-more-content author-info">
+    <h3>Chuck Hoffman</h3>
+    <div class="author-container">
+      <img class="author-img" src="https://hoff2.dev/images/avatar.jpg" alt="Chuck Hoffman" />
+      <div class="author-bio">I'm from Iowa. I sling code for a living and get pretty into it. I also do some fun things with experimental music and retro-tech.</div>
+    </div>
+    <div class="author-share">
+      <ul class="list-inline social-buttons">
+        
+          <li><a href="https://github.com/hoff2" target="_blank"><i class="fa fa-github fa-fw"></i></a></li>
+        
+          <li><a href="https://linkedin.com/in/hoff2" target="_blank"><i class="fa fa-linkedin fa-fw"></i></a></li>
+        
+          <li><a href="https://twitter.com/hoff2dev" target="_blank"><i class="fa fa-twitter fa-fw"></i></a></li>
+        
+      </ul>
+      
+        <a aria-label="Follow @hoff2 on GitHub" data-style="mega" href="https://github.com/hoff2" class="github-button">Follow @hoff2</a>
+      
+      <br>
+      
+        <a href="https://twitter.com/hoff2dev" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @hoff2dev</a>
+      
+    </div>
+  </div>
+</div>
+
+    
+    <div class="read-more">
+  
+    <div class="read-more-header">
+      <a href="https://hoff2.dev" class="read-more-btn">Read More</a>
+    </div><!-- /.read-more-header -->
+    <div class="read-more-content">
+      <h3><a href="https://hoff2.dev/2020-12-14-sql-and-nosql/" title="SQL and NoSQL">SQL and NoSQL</a></h3>
+      <p> > Recently I was given some job interview questions to prepare for. I decided > to try writing my thoughts on the subjects. I had fun wi...&hellip; <a href="https://hoff2.dev/2020-12-14-sql-and-nosql/">Continue reading</a></p>
+    </div><!-- /.read-more-content -->
+  
+  <div class="read-more-list">
+    
+      <div class="list-item">
+        <h4><a href="https://hoff2.dev/2020-12-11-dependency-injection/" title="Notes on Dependency Injection">Notes on Dependency Injection</a></h4>
+        <span>Published on December 11, 2020</span>
+      </div><!-- /.list-item -->
+    
+      <div class="list-item">
+        <h4><a href="https://hoff2.dev/2020-12-05-hello-again/" title="Hello again">Hello again</a></h4>
+        <span>Published on December 05, 2020</span>
+      </div><!-- /.list-item -->
+    
+  </div><!-- /.read-more-list -->
+</div><!-- /.read-more -->
+  </article>
+</div><!-- /#main -->
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript">window.jQuery || document.write('<script type="text/javascript" src="https://hoff2.dev/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script type="text/javascript" src="https://hoff2.dev/assets/js/scripts.min.js"></script>
+<script type="text/javascript" async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
+<script type="text/javascript">!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+
+
+
+
+
+
+
+
+
+<div class="footer-wrapper">
+  <footer role="contentinfo">
+    <span>&copy; 2021 Chuck Hoffman. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="http://github.com/aron-bordin/neo-hpstr-jekyll-theme" rel="nofollow">Neo-HPSTR Theme</a>.</span>
+
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+</body>
+</html>

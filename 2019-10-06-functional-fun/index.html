@@ -1,0 +1,533 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>A fun tidbit of functional programming &#8211; Chuck Hoffman</title>
+<meta name="description" content="Another programmer blog, lucky you.">
+<meta name="keywords" content="functional, javascript, monoids">
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@hoff2dev">
+<meta name="twitter:creator" content="@hoff2dev">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="A fun tidbit of functional programming">
+<meta property="og:description" content="Another programmer blog, lucky you.">
+<meta property="og:url" content="https://hoff2.dev/2019-10-06-functional-fun/">
+<meta property="og:site_name" content="Chuck Hoffman">
+<meta property="og:image" content="https://hoff2.dev/images/">
+
+
+
+
+
+<link rel="canonical" href="https://hoff2.dev/2019-10-06-functional-fun/">
+<link href="https://hoff2.dev/feed.xml" type="application/atom+xml" rel="alternate" title="Chuck Hoffman Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="https://hoff2.dev/assets/css/main.css">
+<link rel="stylesheet" href="https://hoff2.dev/assets/css/jquery.mmenu.all.css">
+<link rel="stylesheet" href="https://hoff2.dev/assets/css/jquery.floating-social-share.min.css">
+<!-- Webfonts -->
+<link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel="stylesheet" type="text/css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script type="text/javascript" src="https://hoff2.dev/assets/js/vendor/modernizr-2.6.2.custom.min.js"></script>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="https://hoff2.dev/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="https://hoff2.dev/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="https://hoff2.dev/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://hoff2.dev/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://hoff2.dev/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://hoff2.dev/images/apple-touch-icon-144x144-precomposed.png">
+
+
+
+
+</head>
+
+<body id="post" >
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+
+
+<div class="header-menu header-menu-top">
+    <ul class="header-item-container">
+      <li class="header-item-title header-toggle "><a href="#menu"><h2><i class="fa fa-bars"></i></h2></a></li>
+      <li class="header-item-title">
+        <a href="https://hoff2.dev/">
+          
+          <a href="https://hoff2.dev/" class="title"> Chuck Hoffman</a>
+        </a>
+      </li>
+      
+        
+        
+
+        
+          <li class="header-item "><a href="https://hoff2.dev#"><h3>Social</h3></a>
+            <ul class="header-submenu">
+              
+                
+                  <li class="sub-item"><a href="https://twitter.com/hoff2dev" target="_blank">Twitter</a></li>
+                
+              
+                
+                  <li class="sub-item"><a href="https://github.com/hoff2" target="_blank">GitHub</a></li>
+                
+              
+                
+                  <li class="sub-item"><a href="https://linkedin.com/in/hoff2" target="_blank">LinkedIn</a></li>
+                
+              
+            </ul>
+          </li>
+        
+      
+        
+        
+
+        
+            
+                <li class="header-item "><a href="https://hoff2.dev/tags"><h3>Tags</h3></a></li>
+            
+        
+      
+        
+        
+
+        
+            
+                <li class="header-item "><a href="https://hoff2.dev/about"><h3>About</h3></a></li>
+            
+        
+      
+        
+        
+
+        
+            
+                <li class="header-item "><a href="https://hoff2.dev/"><h3>Home</h3></a></li>
+            
+        
+      
+      <li class="header-item"><a href="https://hoff2.dev/search"><h3><i class="fa fa-search"></i></h3></a></li>
+    </ul>
+  </div>
+
+  <div class="entry-header">
+    <div class="header-title">
+      <div class="header-title-wrap">
+        <h1>A fun tidbit of functional programming</h1>
+        
+          <h2><span class="entry-date date published updated"><time datetime="2019-10-06T00:00:00+00:00">October 06, 2019</time></span></h2>
+        
+
+        
+            <p class="entry-reading-time">
+              &nbsp;
+            </p><!-- /.entry-reading-time -->
+        
+      </div><!-- /.header-title-wrap -->
+    </div><!-- /.header-title -->
+  </div><!-- /.entry-header -->
+
+
+
+<nav id="menu" style="display: none">
+  <ul>
+    
+      
+        <li><a href="https://hoff2.dev/"><h3>Home</h3></a></li>
+      
+    
+      
+        <li><a href="https://hoff2.dev/about"><h3>About</h3></a></li>
+      
+    
+      
+        <li><a href="https://hoff2.dev/tags"><h3>Tags</h3></a></li>
+      
+    
+      
+        <li><a href="https://hoff2.dev#"><h3>Social</h3></a>
+          <ul>
+            
+              
+                <li><a href="https://twitter.com/hoff2dev" target="_blank">Twitter</a></li>
+              
+            
+              
+                <li><a href="https://github.com/hoff2" target="_blank">GitHub</a></li>
+              
+            
+              
+                <li><a href="https://linkedin.com/in/hoff2" target="_blank">LinkedIn</a></li>
+              
+            
+          </ul>
+        </li>
+      
+    
+  </ul>
+</nav>
+
+
+  <a href="https://twitter.com/hoff2dev" class="btn btn-info button-twitter" data-show-count="false" data-size="large"><i class="fa fa-twitter"></i> <span> | Follow @hoff2dev</span></a>
+
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    <div class="entry-content">
+        
+      <p>The problem: You’ve got a bunch of text replacements you’d like to make in
+strings. Practical application, if you need one: You’re generating messages to
+be read by a speech-to-text system and there are certain words or names that
+come up often that it doesn’t pronounce very well, so you’d like to replace them
+with alternate “phonetic” spellings.</p>
+
+<p>This example is in Javascript but the concepts are broadly applicable. The list
+of replacements you want to make is stored in key-value pairs, the key being
+what to replace and the value being what to replace it with: we have them in a
+Javascript object. Your favorite language’s equivalent might be a <code class="language-plaintext highlighter-rouge">Hash</code>, a
+<code class="language-plaintext highlighter-rouge">Dictionary</code>, a <code class="language-plaintext highlighter-rouge">Map&lt;String, String&gt;</code>, etc.</p>
+
+<p>Here’s a totally reasonable imperative-OO solution one might come up with:<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup></p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">class</span> <span class="nx">MessageTransformer</span> <span class="p">{</span>
+  <span class="kd">constructor</span><span class="p">(</span><span class="nx">replacements</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">replacements</span> <span class="o">=</span> <span class="nx">replacements</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nx">transform</span><span class="p">(</span><span class="nx">text</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">str</span> <span class="k">in</span> <span class="k">this</span><span class="p">.</span><span class="nx">replacements</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">text</span> <span class="o">=</span> <span class="nx">input</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span>
+        <span class="nb">RegExp</span><span class="p">(</span><span class="s2">`\\b</span><span class="p">${</span><span class="nx">str</span><span class="p">}</span><span class="s2">\\b`</span><span class="p">,</span> <span class="dl">'</span><span class="s1">gi</span><span class="dl">'</span><span class="p">),</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">replacements</span><span class="p">[</span><span class="nx">str</span><span class="p">]);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">text</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>To use this you’d create a <code class="language-plaintext highlighter-rouge">MessageTransformer</code> instance during the
+initialization of your program like <code class="language-plaintext highlighter-rouge">const transformer = new
+MessageTransformer(replacements)</code> and then use it to transform your message like
+<code class="language-plaintext highlighter-rouge">const fixedMessage = transformer.transform(message)</code>.</p>
+
+<p>Now, I have a slightly funny history with functional programming. In college I
+learned some Scheme and thought FP was just about the coolest thing ever, but
+almost nobody was using it in industry in those days, Java didn’t even have
+lambdas yet. Then I got a job where I was writing quite a bit of Actionscript
+and upon discovering that, being a ECMAscript dialect, it has closures, I went
+on to write some of the worst wannabe-Lisp-in-Actionscript ever, and had great
+fun doing it. More recently however, I was traumatized at a previous workplace
+by “pure” FP Scala. There’s a great community to hang out if you really want to
+get your impostor syndrome fired up. I now require trigger warnings for
+terminology like “kleisli arrow” and “final tagless.” I’m undergoing a long slow
+recovery. But I got some good things out of it, like an appreciation for
+immutability. And looking at this solution made that particular spot in my brain
+itch a little: we keep reassigning new values to the <code class="language-plaintext highlighter-rouge">text</code> variable (some
+languages won’t even let you do this to function parameters, not that you can’t
+get around it easily enough with a local variable). And then this came to me –
+or rather the idea for it did; it took some work to get the actual code right:</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">messageTransformer</span><span class="p">(</span><span class="nx">replacements</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nx">replacements</span><span class="p">).</span><span class="nx">map</span><span class="p">(</span><span class="nx">str</span> <span class="o">=&gt;</span>
+    <span class="nx">text</span> <span class="o">=&gt;</span> <span class="nx">text</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span>
+      <span class="nb">RegExp</span><span class="p">(</span><span class="s2">`\\b</span><span class="p">${</span><span class="nx">str</span><span class="p">}</span><span class="s2">\\b`</span><span class="p">,</span> <span class="dl">'</span><span class="s1">ig</span><span class="dl">'</span><span class="p">),</span>
+      <span class="nx">replacements</span><span class="p">[</span><span class="nx">str</span><span class="p">])</span>
+  <span class="p">).</span><span class="nx">reduce</span><span class="p">((</span><span class="nx">acc</span><span class="p">,</span> <span class="nx">f</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">text</span> <span class="o">=&gt;</span> <span class="nx">f</span><span class="p">(</span><span class="nx">acc</span><span class="p">(</span><span class="nx">text</span><span class="p">)),</span> <span class="nx">_</span> <span class="o">=&gt;</span> <span class="nx">_</span><span class="p">);</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>There’s actually two significant and completely independent refactors applied
+here, relative to the first version. First is that I moved away from using a
+class. The function accepts your replacements object as a parameter, analogous
+to the constructor, and returns a function that does the transformations,
+analogous to the method. In my head I think of this as the “objects are just a
+poor-man’s closures/closures are just a poor-man’s objects” pattern, after
+something I heard in that class where I learned Scheme. It could probably use a
+shorter name. It changes the usage syntax a bit: to initialize it, you’d go
+<code class="language-plaintext highlighter-rouge">const transform = messageTransformer(replacements)</code> and then use it like <code class="language-plaintext highlighter-rouge">const
+fixedMessage = transform(message)</code>, or if you want to do both all in one go,
+<code class="language-plaintext highlighter-rouge">const fixedMessage = messageTransformer(replacements)(message)</code>. This is
+potentially a pretty handy pattern you can use anytime you might create a class
+with only one public method.</p>
+
+<p>The second and weirder refactor is that I replaced looping through the
+replacements and assigning the result of performing each replacement back to the
+variable with… something else. It has two parts and they are a “map” and a
+“reduce”. You might have heard of MapReduce during the Big Data craze a few
+years back. This is literally the same concept, but with small data, and turns
+out it’s a really common FP pattern. “Map” can mean taking a collection of
+something and turning it into a collection of something else by applying the
+same function to each element<sup id="fnref:2" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup>; “reduce” would then mean taking that
+collection and reducing it down to one value, for example summing a list of
+numbers, or even just counting how many things are in the list.</p>
+
+<p>In the map stage, each item in <code class="language-plaintext highlighter-rouge">replacements</code> (or more precisely, the array if
+<code class="language-plaintext highlighter-rouge">replacements</code>’s keys) is mapped to a function that performs that replacement.
+By the end of it we have an array of functions. Each function in that array is
+analogous to one iteration of the <code class="language-plaintext highlighter-rouge">for</code> loop in the first version.</p>
+
+<p>The reduce stage rolls all those functions into one single function by “folding”
+function composition over it. This is the conceptually densest part of this
+whole thing, but I’ll try my best. Imperatively speaking, it sort of loops
+through the array of functions and adds them all together, so that by the end we
+have a kind of chain of functions that the text gets piped through, but all in
+one function. How does this work?</p>
+
+<p>Any time you have some function that accepts two parameters of some type and
+returns something of that same type – its type signature is of the form <code class="language-plaintext highlighter-rouge">(A, A)
+=&gt; A</code> – you can use that function over a whole <em>list</em> of <code class="language-plaintext highlighter-rouge">A</code>s by using what’s
+called reducing or folding; it’s done by successively applying that function to
+each item in the collection and the “so far” value. To analogize to the example
+of summing a list of numbers, if you were doing it with a for-loop, each time
+through the loop you add the next number in the list to the sum so far; to do
+the same thing with <code class="language-plaintext highlighter-rouge">reduce</code>, you just give it a function that does that, <code class="language-plaintext highlighter-rouge">(x,
+y) =&gt; x + y</code>. Given a function that adds two numbers, <code class="language-plaintext highlighter-rouge">reduce</code> can use it to add
+a whole bunch of numbers. Give <code class="language-plaintext highlighter-rouge">reduce</code> a function that returns the larger of
+two numbers and it can use it to find the largest of several numbers. Give
+<code class="language-plaintext highlighter-rouge">reduce</code> a function that just returns 1 and you’ll end up with a count of how
+many numbers were in the list. And so on.</p>
+
+<p>Function composition is what it’s called when you make a new function out of two
+functions – all this new function has to do is pass its argument to one of the
+two functions and then pass the result of that on to the other one. This is
+especially easy to do with two functions where their parameters and return
+values are all the same type – that is, they both have a type signature of the
+form <code class="language-plaintext highlighter-rouge">B =&gt; B</code> (the actual letter doesn’t matter, but I don’t want to get too
+confusing by re-using <code class="language-plaintext highlighter-rouge">A</code>). If you have two such functions <code class="language-plaintext highlighter-rouge">f</code> and <code class="language-plaintext highlighter-rouge">g</code>, the
+composition of them is <code class="language-plaintext highlighter-rouge">x =&gt; g(f(x))</code>. You can write a function to do it:
+<code class="language-plaintext highlighter-rouge">compose(f, g) = x =&gt; f(g(x))</code>. Anything about this sound familiar?</p>
+
+<p>Yes! You can “compose” the concepts of the previous two paragraphs! A function
+that accepts two functions and returns the same kind of function, like our
+<code class="language-plaintext highlighter-rouge">compose</code>, is yet another example of a function of the form <code class="language-plaintext highlighter-rouge">(A, A) =&gt; A</code> – it
+just so happens that its parameters are functions too – <code class="language-plaintext highlighter-rouge">A = B =&gt; B</code> – making
+function composition <em>yet another</em> thing we can use in a <code class="language-plaintext highlighter-rouge">reduce</code>! And that’s
+exactly what we’ve done in the <code class="language-plaintext highlighter-rouge">reduce</code> above: <code class="language-plaintext highlighter-rouge">(acc, f) =&gt; text =&gt;
+f(acc(text))</code>, that is, given two functions <code class="language-plaintext highlighter-rouge">acc</code> and <code class="language-plaintext highlighter-rouge">f</code>, return a function
+that takes <code class="language-plaintext highlighter-rouge">text</code> and returns <code class="language-plaintext highlighter-rouge">f(acc(text))</code>. Since we’re working with a
+collection of <code class="language-plaintext highlighter-rouge">B =&gt; B</code> functions (where <code class="language-plaintext highlighter-rouge">B</code> means strings in our example), with
+function composition we can roll them all up into one single <code class="language-plaintext highlighter-rouge">B =&gt; B</code> function.</p>
+
+<p>Oh, but there’s still that other weird looking parameter I’ve been glossing
+over, <code class="language-plaintext highlighter-rouge">_ =&gt; _</code>. That’s just a function that takes one parameter and just returns
+it. <code class="language-plaintext highlighter-rouge">_</code> is a valid Javascript identifier, so this is just a little style choice
+on my part. But why does this need to be here? Because a reduce needs a starting
+value. In yet another analogy to summing a list of numbers with a loop: you need
+to initialize the sum to 0 before starting the loop. <code class="language-plaintext highlighter-rouge">_ =&gt; _</code> is actually a
+pretty special function to FP heads: they call it the “identity function”. It
+comes in handy for just this sort of thing, because the identity function is to
+function composition what 0 is to adding numbers. There’s a scary FP terminology
+for this that’s hopefully about to be a bit less scary if I can explain it well
+enough.</p>
+
+<p>It’s a concept borrowed from abstract algebra, a term for things that you can
+put two of together and get the same kind of thing, and hence, things you can
+reduce with: they’re called <em>monoids</em>. For example, to speak yet again of
+summing numbers, they say in algebra that “the set of real numbers under
+addition forms a monoid.” A monoid is made up of a set, analogous to a type in
+programming; a binary operation on that set (“binary” in the sense that it has
+two operands), analogous to our <code class="language-plaintext highlighter-rouge">(A, A) =&gt; A</code>; and an <em>identity element</em>. The
+identity element is that member of <code class="language-plaintext highlighter-rouge">A</code> where, when used in the binary operation,
+the result is equal to the other argument – like how in real numbers, <code class="language-plaintext highlighter-rouge">x + 0 ==
+0 + x == x</code>.<sup id="fnref:3" role="doc-noteref"><a href="#fn:3" class="footnote" rel="footnote">3</a></sup> In the same way, functions like <code class="language-plaintext highlighter-rouge">B =&gt; B</code> form a monoid under
+function-composition having the identity function, often called <code class="language-plaintext highlighter-rouge">i</code>, as its
+identity element, because composing some <code class="language-plaintext highlighter-rouge">f</code> with <code class="language-plaintext highlighter-rouge">i</code> gets you, for all
+practical purposes, the same function: <code class="language-plaintext highlighter-rouge">i(f(x)) == f(i(x)) == f(x)</code>.<sup id="fnref:4" role="doc-noteref"><a href="#fn:4" class="footnote" rel="footnote">4</a></sup></p>
+
+<p>Anyway, to get back to our little example, I thought this functional version
+turned out pretty slick, it’s a neat way to conceptualize the problem, the code
+is really succinct and clean, and there’s no mutability to think about. I
+decided to write up a post about it for the benefit of functional programming
+fans who might appreciate it the way I do, and for folks who are in the early
+stages of exploring functional programming for whom all this explanation might
+be educational.</p>
+
+<p>Now, I hear a couple of you in the back of the room there grumbling that this
+implementation is probably terrible on memory usage. There’s something to that.
+If your list of replacements is big enough (and that would probably have to be
+pretty big), this thing could overflow the stack. It’s a common issue with
+highly functional programming style, because you build just about everything out
+of functions, and function calls use stack space. That said, you know what they
+say about micro-optimizations. And besides, that sort of thing is quite
+dependent on the language implementation. If nothing else, this was a cool
+illustration of the power of functional abstractions.</p>
+
+<p>Implementations for pure functional languages, and others that make a priority
+of enabling use of functional features, have ways of dealing with this stack
+usage issue. You’ve probably heard of the optimization of tail-recursion, which
+can be generalized to tail-calls. This is when a function calls another function
+as the last thing it does before itself returning to its caller. If call A’s
+last thing to do is to call function B (which in the case of recursion is the
+same function as A), and has no further work to do afterwards, then as soon as
+B’s stack frame is popped off, A’s will be too, so there wasn’t much point in
+keeping the A stack frame around. Tail-call optimization basically consists of
+popping off that stack frame pre-emptively. When this can be done for a
+recursive function, the resulting memory usage is essentially the same as for
+having used a loop. Downsides can include losing debugging information (think
+stack traces). There’s also a techique called trampolining that I don’t
+understand very well except that it somehow results in the memory allocation
+happening on the heap instead.</p>
+
+<p>Anyway, hope this was interesting.</p>
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>The only thing slightly esoteric here is maybe the regular expression
+stuff. <code class="language-plaintext highlighter-rouge">\b</code> is just a regex thing that matches a “boundary”, that is, a word
+boundary, since we want to replace whole words; it matches the beginning or
+end of the string, or of a line, or of a word. The flags <code class="language-plaintext highlighter-rouge">gi</code> stand for
+“global” (replace all occurrences, not just the first one found) and
+“insensitive” (to letter case). <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:2" role="doc-endnote">
+      <p>Technically the “context” in which a map occurs doesn’t have to be that
+it’s a collection, there are lots of other uses; but collections are
+commonly most people’s first introduction to some of these FP concepts. To
+give you some idea what other things map can operate on, the <code class="language-plaintext highlighter-rouge">then</code> method
+of a <code class="language-plaintext highlighter-rouge">Promise</code> is also basically a map; you give it a function that accepts
+<code class="language-plaintext highlighter-rouge">A</code> and returns <code class="language-plaintext highlighter-rouge">B</code>, and it uses it to turn a <code class="language-plaintext highlighter-rouge">Promise</code> with <code class="language-plaintext highlighter-rouge">A</code> in it into
+a <code class="language-plaintext highlighter-rouge">Promise</code> with <code class="language-plaintext highlighter-rouge">B</code> in it. <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:3" role="doc-endnote">
+      <p>There’s a whole lot of other nuances I’m glossing over that you’re likely
+to run into and understand eventually. For instance, there is such a thing
+as a monoid <em>without</em> an identity element, except it’s called a <em>semigroup</em>
+(In fact I’ve made reference to one earlier, I’ll leave it as a challenge
+for the reader to spot it). And sometimes the order of arguments to the
+operation matters; when it doesn’t, you have a <em>commutative</em> monoid, like
+with numbers under addition, but sometimes it does, like with strings under
+concatenation, and in some of those type of cases you have elements that are
+only a <em>left identity</em> or <em>right identity</em>… it’s a whole deep and
+fascinating branch of mathematics that’s totally worth exploring further but
+I’m trying to keep this article from going off the rails, and this footnote
+is mostly here for the benefit of the Well-Actually Brigade. <a href="#fnref:3" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:4" role="doc-endnote">
+      <p>I’m intentionally using notation here aimed at programmers rather than
+proper mathematical notation, don’t @ me. <a href="#fnref:4" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+      <footer class="entry-meta">
+        <span class="entry-tags"><a href="https://hoff2.dev/tags#functional" title="Pages tagged functional" class="tag"><span class="term">functional</span></a><a href="https://hoff2.dev/tags#javascript" title="Pages tagged javascript" class="tag"><span class="term">javascript</span></a><a href="https://hoff2.dev/tags#monoids" title="Pages tagged monoids" class="tag"><span class="term">monoids</span></a></span>
+        
+        <span class="author vcard"><span class="fn">Chuck Hoffman</span></span>
+        <div class="social-share">
+  <ul class="socialcount socialcount-small inline-list">
+    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=https://hoff2.dev/2019-10-06-functional-fun/" title="Share on Facebook"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
+    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=https://hoff2.dev/2019-10-06-functional-fun/" title="Share on Twitter"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
+    <li class="googleplus"><a href="https://plus.google.com/share?url=https://hoff2.dev/2019-10-06-functional-fun/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li>
+  </ul>
+</div><!-- /.social-share -->
+
+      </footer>
+    </div><!-- /.entry-content -->
+    <div class="read-more">
+  <div class="read-more-header">
+    <a href="https://hoff2.dev" class="read-more-btn">About the Author</a>
+  </div><!-- /.read-more-header -->
+  <div class="read-more-content author-info">
+    <h3>Chuck Hoffman</h3>
+    <div class="author-container">
+      <img class="author-img" src="https://hoff2.dev/images/avatar.jpg" alt="Chuck Hoffman" />
+      <div class="author-bio">I'm from Iowa. I sling code for a living and get pretty into it. I also do some fun things with experimental music and retro-tech.</div>
+    </div>
+    <div class="author-share">
+      <ul class="list-inline social-buttons">
+        
+          <li><a href="https://github.com/hoff2" target="_blank"><i class="fa fa-github fa-fw"></i></a></li>
+        
+          <li><a href="https://linkedin.com/in/hoff2" target="_blank"><i class="fa fa-linkedin fa-fw"></i></a></li>
+        
+          <li><a href="https://twitter.com/hoff2dev" target="_blank"><i class="fa fa-twitter fa-fw"></i></a></li>
+        
+      </ul>
+      
+        <a aria-label="Follow @hoff2 on GitHub" data-style="mega" href="https://github.com/hoff2" class="github-button">Follow @hoff2</a>
+      
+      <br>
+      
+        <a href="https://twitter.com/hoff2dev" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @hoff2dev</a>
+      
+    </div>
+  </div>
+</div>
+
+    
+    <div class="read-more">
+  
+    <div class="read-more-header">
+      <a href="https://hoff2.dev/2017-11-02-ending-the-indentation-argument/" class="read-more-btn">Read More</a>
+    </div><!-- /.read-more-header -->
+    <div class="read-more-content">
+      <h3><a href="https://hoff2.dev/2020-12-14-sql-and-nosql/" title="SQL and NoSQL">SQL and NoSQL</a></h3>
+      <p> > Recently I was given some job interview questions to prepare for. I decided > to try writing my thoughts on the subjects. I had fun wi...&hellip; <a href="https://hoff2.dev/2020-12-14-sql-and-nosql/">Continue reading</a></p>
+    </div><!-- /.read-more-content -->
+  
+  <div class="read-more-list">
+    
+      <div class="list-item">
+        <h4><a href="https://hoff2.dev/2020-12-11-dependency-injection/" title="Notes on Dependency Injection">Notes on Dependency Injection</a></h4>
+        <span>Published on December 11, 2020</span>
+      </div><!-- /.list-item -->
+    
+      <div class="list-item">
+        <h4><a href="https://hoff2.dev/2020-12-05-hello-again/" title="Hello again">Hello again</a></h4>
+        <span>Published on December 05, 2020</span>
+      </div><!-- /.list-item -->
+    
+  </div><!-- /.read-more-list -->
+</div><!-- /.read-more -->
+  </article>
+</div><!-- /#main -->
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript">window.jQuery || document.write('<script type="text/javascript" src="https://hoff2.dev/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script type="text/javascript" src="https://hoff2.dev/assets/js/scripts.min.js"></script>
+<script type="text/javascript" async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
+<script type="text/javascript">!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+
+
+
+
+
+
+
+
+
+<div class="footer-wrapper">
+  <footer role="contentinfo">
+    <span>&copy; 2021 Chuck Hoffman. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="http://github.com/aron-bordin/neo-hpstr-jekyll-theme" rel="nofollow">Neo-HPSTR Theme</a>.</span>
+
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+</body>
+</html>

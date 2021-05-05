@@ -1,0 +1,406 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>SQL and NoSQL &#8211; Chuck Hoffman</title>
+<meta name="description" content="Another programmer blog, lucky you.">
+<meta name="keywords" content="databases, SQL, NoSQL">
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@hoff2dev">
+<meta name="twitter:creator" content="@hoff2dev">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SQL and NoSQL">
+<meta property="og:description" content="Another programmer blog, lucky you.">
+<meta property="og:url" content="https://hoff2.dev/2020-12-14-sql-and-nosql/">
+<meta property="og:site_name" content="Chuck Hoffman">
+<meta property="og:image" content="https://hoff2.dev/images/">
+
+
+
+
+
+<link rel="canonical" href="https://hoff2.dev/2020-12-14-sql-and-nosql/">
+<link href="https://hoff2.dev/feed.xml" type="application/atom+xml" rel="alternate" title="Chuck Hoffman Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="https://hoff2.dev/assets/css/main.css">
+<link rel="stylesheet" href="https://hoff2.dev/assets/css/jquery.mmenu.all.css">
+<link rel="stylesheet" href="https://hoff2.dev/assets/css/jquery.floating-social-share.min.css">
+<!-- Webfonts -->
+<link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel="stylesheet" type="text/css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script type="text/javascript" src="https://hoff2.dev/assets/js/vendor/modernizr-2.6.2.custom.min.js"></script>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="https://hoff2.dev/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="https://hoff2.dev/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="https://hoff2.dev/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://hoff2.dev/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://hoff2.dev/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://hoff2.dev/images/apple-touch-icon-144x144-precomposed.png">
+
+
+
+
+</head>
+
+<body id="post" >
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+
+
+<div class="header-menu header-menu-top">
+    <ul class="header-item-container">
+      <li class="header-item-title header-toggle "><a href="#menu"><h2><i class="fa fa-bars"></i></h2></a></li>
+      <li class="header-item-title">
+        <a href="https://hoff2.dev/">
+          
+          <a href="https://hoff2.dev/" class="title"> Chuck Hoffman</a>
+        </a>
+      </li>
+      
+        
+        
+
+        
+          <li class="header-item "><a href="https://hoff2.dev#"><h3>Social</h3></a>
+            <ul class="header-submenu">
+              
+                
+                  <li class="sub-item"><a href="https://twitter.com/hoff2dev" target="_blank">Twitter</a></li>
+                
+              
+                
+                  <li class="sub-item"><a href="https://github.com/hoff2" target="_blank">GitHub</a></li>
+                
+              
+                
+                  <li class="sub-item"><a href="https://linkedin.com/in/hoff2" target="_blank">LinkedIn</a></li>
+                
+              
+            </ul>
+          </li>
+        
+      
+        
+        
+
+        
+            
+                <li class="header-item "><a href="https://hoff2.dev/tags"><h3>Tags</h3></a></li>
+            
+        
+      
+        
+        
+
+        
+            
+                <li class="header-item "><a href="https://hoff2.dev/about"><h3>About</h3></a></li>
+            
+        
+      
+        
+        
+
+        
+            
+                <li class="header-item "><a href="https://hoff2.dev/"><h3>Home</h3></a></li>
+            
+        
+      
+      <li class="header-item"><a href="https://hoff2.dev/search"><h3><i class="fa fa-search"></i></h3></a></li>
+    </ul>
+  </div>
+
+  <div class="entry-header">
+    <div class="header-title">
+      <div class="header-title-wrap">
+        <h1>SQL and NoSQL</h1>
+        
+          <h2><span class="entry-date date published updated"><time datetime="2020-12-14T00:00:00+00:00">December 14, 2020</time></span></h2>
+        
+
+        
+            <p class="entry-reading-time">
+              &nbsp;
+            </p><!-- /.entry-reading-time -->
+        
+      </div><!-- /.header-title-wrap -->
+    </div><!-- /.header-title -->
+  </div><!-- /.entry-header -->
+
+
+
+<nav id="menu" style="display: none">
+  <ul>
+    
+      
+        <li><a href="https://hoff2.dev/"><h3>Home</h3></a></li>
+      
+    
+      
+        <li><a href="https://hoff2.dev/about"><h3>About</h3></a></li>
+      
+    
+      
+        <li><a href="https://hoff2.dev/tags"><h3>Tags</h3></a></li>
+      
+    
+      
+        <li><a href="https://hoff2.dev#"><h3>Social</h3></a>
+          <ul>
+            
+              
+                <li><a href="https://twitter.com/hoff2dev" target="_blank">Twitter</a></li>
+              
+            
+              
+                <li><a href="https://github.com/hoff2" target="_blank">GitHub</a></li>
+              
+            
+              
+                <li><a href="https://linkedin.com/in/hoff2" target="_blank">LinkedIn</a></li>
+              
+            
+          </ul>
+        </li>
+      
+    
+  </ul>
+</nav>
+
+
+  <a href="https://twitter.com/hoff2dev" class="btn btn-info button-twitter" data-show-count="false" data-size="large"><i class="fa fa-twitter"></i> <span> | Follow @hoff2dev</span></a>
+
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    <div class="entry-content">
+        
+      <blockquote>
+  <p>Recently I was given some job interview questions to prepare for. I decided
+to try writing my thoughts on the subjects. I had fun with it so I decided to
+clean them up a bit and make them blog posts. One thing I noticed was that
+when writing, I didn’t have so much a name let alone a mental picture of a
+hypothetical senior engineer I’d be interviewing with and seemed instead to
+be writing for the recruiter I’d been in contact with as intended audience. I
+was explaining concepts less to impress someone and more to actually teach.
+Therefore I hope these posts are informative to someone.</p>
+</blockquote>
+
+<p>Q: When might you want to use a NoSQL database instead of SQL?</p>
+
+<p>Generally speaking, a database is any store of data and the means to find and
+use what is in it, which may include a query language such as SQL. The file
+system(s) used by the operating system on your computer is also a database, and
+you might even think of file names/paths as part of a query language for it. A
+file system has metadata for keeping track of where the bits that are called by
+a given filename in a given folder are physically kept on the disk (or whatever
+storage medium you might be abstractly referring to as a “disk”), so as to help
+the software to find, use, add, and modify files in ways a user might request.</p>
+
+<p>These same factors also define other kinds of databases: a way of organizing
+data in some storage medium; facilities for accessing, calculating from, adding
+to, and modifying it; and metadata (such as indexes) to support these
+facilities. Various database architectures have different ways of implementing
+these things that can support different logical models of data access to varying
+degrees of speed and space efficiency.</p>
+
+<p>The term “NoSQL” is interesting because I suspect that it may be highlighting
+the wrong variable and thereby misleading. The defining factors of NoSQL
+databases as opposed to what users of this term mean by SQL databases seems to
+me to have more to do with the underlying architecture and features of a
+database engine, than with the SQL query language itself. But SQL is closely
+correlated to what are called relational databases, a model which has dominated
+the field of databases, in the sense of which most people think of the term
+“database”, for a number of years now.</p>
+
+<p>Relational databases provide a logical model of data arranged in tables, the
+rows being data records, containing fields (arranged in columns) that hold the
+component data of the records. There are keys to uniquely identify particular
+records, foreign keys to express <em>relationships</em> between records, be they in the
+same table or different, and indexes to help the system locate records by keys.
+It’s all fairly intuitive to folks who know their way around spreadsheets and
+also quite logically flexible. Relational databases almost universally offer an
+SQL interface, but I have also seen SQL-like languages offered for other kinds
+of data stores such as ksqldb for Kafka, and proprietary specialized dialects
+like this one thing Salesforce has that I can’t remember the name of right now.
+They have become the default choices of database to back most applications that
+need something they can’t get from, say, sticking stuff in files; to the degree
+that the term “database” has become nearly synonymous with them, and the
+occupation of “database administrator” likewise synonymous with someone skilled
+at working with SQL, various extensions of SQL, and relational database
+solutions in general or specific.</p>
+
+<p>Relational databases have been so dominant for so long for good reason. They are
+good general-purpose databases and a lot of work over a long time has gone into
+making them good. They give you facilities to be able to do just about anything
+with the data they contain that you might conceivably dream up, almost as
+quickly as you can dream it up. You can put lots of data in an SQL database and
+get a lot out functionality of it easily.  Right now I’d still say if you’re
+building a new product, there’s almost no reason not to at least start off with
+one of these databases even if you’re keeping your options open in the longer
+term. Free and open-source solutions like PostgreSQL are competitive with
+commercial offerings like Microsoft SQL or Oracle, and at small scale and/or
+early stages of a product you can even go with something easy and
+low-maintenance like MySQL or SQLite. You can run them on your own laptop and do
+all the nasty things to them you could ever want to try as you develop a
+product.</p>
+
+<p>But yeah, this is the hegemony that birthed the NoSQL meme. Some tech companies
+were getting big doing some innovative stuff and found themselves reaching
+performance and scale needs that relational databases weren’t up for. Being
+pretty good at a lot of things sometimes leaves you coming up short on very
+specific things, especially things that were rarer when the system was initially
+designed. Everything’s a trade-off. Demand increased for distributed and
+parallel computing to handle high load, and relational databases often weren’t
+the best at scaling out. Replication exists but it’s pretty meh, and sharding is
+helpful for some things but can be difficult to get right. Other kinds of
+databases needed to be found or built to meet new needs.</p>
+
+<p>The NoSQL movement may be little more than a recognition of these conditions.
+Its effect has seemed to be to bring attention to other kinds of database
+systems. A caching system can get by with less features for structuring data so
+long as it can access it quickly. A reporting system would have more need for
+pulling a lot of data at once and flexibility in structuring it, but place less
+importance on the data being up-to-the-millisecond consistent across your
+enterprise. Through message- and event-driven system design techniques, one can
+even represent the same information in multiple different databases to support
+different applications. NoSQL was mostly about recognizing that we had more
+choices than we might have realized.</p>
+
+<p>So ultimately, the answer to the question of when you might want to use a SQL
+database versus a NoSQL one comes down to the old “consultants’ answer” of “it
+depends.” But what I hope I have been able to get across is a good sense of what
+kinds of things it might depend <em>on</em>. There exist now a variety of database
+solutions besides SQL/relational, all focused on being good at different things.
+The question isn’t so much SQL versus NoSQL, as it is a choice among a variety
+of databases of which SQL is but one subcategory.</p>
+
+<blockquote>
+  <p>Got a tech question you’d like me to write on? Send it to hoff2 at HEY dot
+com.</p>
+</blockquote>
+
+      <footer class="entry-meta">
+        <span class="entry-tags"><a href="https://hoff2.dev/tags#databases" title="Pages tagged databases" class="tag"><span class="term">databases</span></a><a href="https://hoff2.dev/tags#SQL" title="Pages tagged SQL" class="tag"><span class="term">SQL</span></a><a href="https://hoff2.dev/tags#NoSQL" title="Pages tagged NoSQL" class="tag"><span class="term">NoSQL</span></a></span>
+        
+        <span class="author vcard"><span class="fn">Chuck Hoffman</span></span>
+        <div class="social-share">
+  <ul class="socialcount socialcount-small inline-list">
+    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=https://hoff2.dev/2020-12-14-sql-and-nosql/" title="Share on Facebook"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
+    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=https://hoff2.dev/2020-12-14-sql-and-nosql/" title="Share on Twitter"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
+    <li class="googleplus"><a href="https://plus.google.com/share?url=https://hoff2.dev/2020-12-14-sql-and-nosql/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li>
+  </ul>
+</div><!-- /.social-share -->
+
+      </footer>
+    </div><!-- /.entry-content -->
+    <div class="read-more">
+  <div class="read-more-header">
+    <a href="https://hoff2.dev" class="read-more-btn">About the Author</a>
+  </div><!-- /.read-more-header -->
+  <div class="read-more-content author-info">
+    <h3>Chuck Hoffman</h3>
+    <div class="author-container">
+      <img class="author-img" src="https://hoff2.dev/images/avatar.jpg" alt="Chuck Hoffman" />
+      <div class="author-bio">I'm from Iowa. I sling code for a living and get pretty into it. I also do some fun things with experimental music and retro-tech.</div>
+    </div>
+    <div class="author-share">
+      <ul class="list-inline social-buttons">
+        
+          <li><a href="https://github.com/hoff2" target="_blank"><i class="fa fa-github fa-fw"></i></a></li>
+        
+          <li><a href="https://linkedin.com/in/hoff2" target="_blank"><i class="fa fa-linkedin fa-fw"></i></a></li>
+        
+          <li><a href="https://twitter.com/hoff2dev" target="_blank"><i class="fa fa-twitter fa-fw"></i></a></li>
+        
+      </ul>
+      
+        <a aria-label="Follow @hoff2 on GitHub" data-style="mega" href="https://github.com/hoff2" class="github-button">Follow @hoff2</a>
+      
+      <br>
+      
+        <a href="https://twitter.com/hoff2dev" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @hoff2dev</a>
+      
+    </div>
+  </div>
+</div>
+
+    
+    <div class="read-more">
+  
+    <div class="read-more-header">
+      <a href="https://hoff2.dev/2020-12-11-dependency-injection/" class="read-more-btn">Read More</a>
+    </div><!-- /.read-more-header -->
+    <div class="read-more-content">
+      <h3><a href="https://hoff2.dev/2020-12-11-dependency-injection/" title="Notes on Dependency Injection">Notes on Dependency Injection</a></h3>
+      <p>  Recently I was given some job interview questions to prepare for. I decidedto try writing my thoughts on the subjects. I had fun with i...&hellip; <a href="https://hoff2.dev/2020-12-11-dependency-injection/">Continue reading</a></p>
+    </div><!-- /.read-more-content -->
+  
+  <div class="read-more-list">
+    
+      <div class="list-item">
+        <h4><a href="https://hoff2.dev/2020-12-05-hello-again/" title="Hello again">Hello again</a></h4>
+        <span>Published on December 05, 2020</span>
+      </div><!-- /.list-item -->
+    
+      <div class="list-item">
+        <h4><a href="https://hoff2.dev/2020-08-04-wesley-willis-a-tribute/" title="Wesley Willis, a tribute">Wesley Willis, a tribute</a></h4>
+        <span>Published on August 04, 2020</span>
+      </div><!-- /.list-item -->
+    
+  </div><!-- /.read-more-list -->
+</div><!-- /.read-more -->
+  </article>
+</div><!-- /#main -->
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript">window.jQuery || document.write('<script type="text/javascript" src="https://hoff2.dev/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script type="text/javascript" src="https://hoff2.dev/assets/js/scripts.min.js"></script>
+<script type="text/javascript" async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
+<script type="text/javascript">!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+
+
+
+
+
+
+
+
+
+<div class="footer-wrapper">
+  <footer role="contentinfo">
+    <span>&copy; 2021 Chuck Hoffman. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="http://github.com/aron-bordin/neo-hpstr-jekyll-theme" rel="nofollow">Neo-HPSTR Theme</a>.</span>
+
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+</body>
+</html>
